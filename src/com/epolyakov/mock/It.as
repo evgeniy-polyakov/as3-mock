@@ -1,6 +1,6 @@
 package com.epolyakov.mock
 {
-	import com.epolyakov.mock.matchers.AnyMatcher;
+	import com.epolyakov.mock.matchers.IsAnyMatcher;
 	import com.epolyakov.mock.matchers.FunctionMatcher;
 	import com.epolyakov.mock.matchers.IsEqualMatcher;
 	import com.epolyakov.mock.matchers.IsOfTypeMatcher;
@@ -98,7 +98,7 @@ package com.epolyakov.mock
 
 		public static function isAny():*
 		{
-			Mock.getArgumentsMatcher().addMatcher(new AnyMatcher());
+			Mock.getArgumentsMatcher().addMatcher(new IsAnyMatcher());
 			return undefined;
 		}
 	}

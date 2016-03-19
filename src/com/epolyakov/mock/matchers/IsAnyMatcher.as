@@ -5,7 +5,7 @@ package com.epolyakov.mock.matchers
 	/**
 	 * @author Evgeniy Polyakov
 	 */
-	public class AnyMatcher implements IMatcher
+	public class IsAnyMatcher implements IMatcher
 	{
 		public function match(value:*):Boolean
 		{
