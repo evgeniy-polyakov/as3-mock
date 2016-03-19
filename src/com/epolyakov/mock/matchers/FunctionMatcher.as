@@ -21,7 +21,7 @@ package com.epolyakov.mock.matchers
 
 		public function toString():String
 		{
-			return "It.matches(" + _func + ")";
+			return "It.match(" + _func + ")";
 		}
 	}
 }
