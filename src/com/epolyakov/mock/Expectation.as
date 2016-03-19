@@ -73,7 +73,7 @@ package com.epolyakov.mock
 			{
 				argumentsMatcher = new ArgumentsMatcher();
 			}
-			argumentsMatcher.complete(invocation.arguments);
+			argumentsMatcher.passArguments(invocation.arguments);
 
 			_object = invocation.object;
 			_method = invocation.method;

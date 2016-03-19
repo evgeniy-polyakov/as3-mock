@@ -28,7 +28,7 @@ package com.epolyakov.mock
 			{
 				argumentsMatcher = new ArgumentsMatcher();
 			}
-			argumentsMatcher.complete(invocation.arguments);
+			argumentsMatcher.passArguments(invocation.arguments);
 
 			var invocationsMatched:int = 0;
 			var invocations:Vector.<Invocation> = Mock.getInvocations();

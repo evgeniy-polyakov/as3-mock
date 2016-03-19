@@ -14,12 +14,12 @@ package com.epolyakov.mock
 			return _matchers;
 		}
 
-		internal function add(matcher:IMatcher):void
+		internal function addMatcher(matcher:IMatcher):void
 		{
 			_matchers.push(matcher);
 		}
 
-		internal function complete(arguments:Array):void
+		internal function passArguments(arguments:Array):void
 		{
 			var matchers:Vector.<IMatcher> = new Vector.<IMatcher>(arguments.length);
 			var defaultArgumentsLength:int = 0;

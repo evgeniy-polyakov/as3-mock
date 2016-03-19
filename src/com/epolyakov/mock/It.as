@@ -19,15 +19,15 @@ package com.epolyakov.mock
 		{
 			if (matcher is IMatcher)
 			{
-				Mock.getArgumentsMatcher().add(matcher);
+				Mock.getArgumentsMatcher().addMatcher(matcher);
 			}
 			else if (matcher is Function)
 			{
-				Mock.getArgumentsMatcher().add(new FunctionMatcher(matcher));
+				Mock.getArgumentsMatcher().addMatcher(new FunctionMatcher(matcher));
 			}
 			else if (matcher is RegExp)
 			{
-				Mock.getArgumentsMatcher().add(new RegExpMatcher(matcher as RegExp));
+				Mock.getArgumentsMatcher().addMatcher(new RegExpMatcher(matcher as RegExp));
 			}
 			else
 			{
@@ -38,67 +38,67 @@ package com.epolyakov.mock
 
 		public static function isEqual(value:*, ...values):*
 		{
-			Mock.getArgumentsMatcher().add(new IsEqualMatcher(value, values));
+			Mock.getArgumentsMatcher().addMatcher(new IsEqualMatcher(value, values));
 			return undefined;
 		}
 
 		public static function notEqual(value:*, ...values):*
 		{
-			Mock.getArgumentsMatcher().add(new NotEqualMatcher(value, values));
+			Mock.getArgumentsMatcher().addMatcher(new NotEqualMatcher(value, values));
 			return undefined;
 		}
 
 		public static function isStrictlyEqual(value:*, ...values):*
 		{
-			Mock.getArgumentsMatcher().add(new IsStrictlyEqualMatcher(value, values));
+			Mock.getArgumentsMatcher().addMatcher(new IsStrictlyEqualMatcher(value, values));
 			return undefined;
 		}
 
 		public static function notStrictlyEqual(value:*, ...values):*
 		{
-			Mock.getArgumentsMatcher().add(new NotStrictlyEqualMatcher(value, values));
+			Mock.getArgumentsMatcher().addMatcher(new NotStrictlyEqualMatcher(value, values));
 			return undefined;
 		}
 
 		public static function isOfType(type:Class, ...types):*
 		{
-			Mock.getArgumentsMatcher().add(new IsOfTypeMatcher(type, types));
+			Mock.getArgumentsMatcher().addMatcher(new IsOfTypeMatcher(type, types));
 			return undefined;
 		}
 
 		public static function notOfType(type:Class, ...types):*
 		{
-			Mock.getArgumentsMatcher().add(new NotOfTypeMatcher(type, types));
+			Mock.getArgumentsMatcher().addMatcher(new NotOfTypeMatcher(type, types));
 			return undefined;
 		}
 
 		public static function isNull():*
 		{
-			Mock.getArgumentsMatcher().add(new IsEqualMatcher(null));
+			Mock.getArgumentsMatcher().addMatcher(new IsEqualMatcher(null));
 			return undefined;
 		}
 
 		public static function notNull():*
 		{
-			Mock.getArgumentsMatcher().add(new NotEqualMatcher(null));
+			Mock.getArgumentsMatcher().addMatcher(new NotEqualMatcher(null));
 			return undefined;
 		}
 
 		public static function isFalse():Boolean
 		{
-			Mock.getArgumentsMatcher().add(new IsEqualMatcher(false));
+			Mock.getArgumentsMatcher().addMatcher(new IsEqualMatcher(false));
 			return undefined;
 		}
 
 		public static function isTrue():Boolean
 		{
-			Mock.getArgumentsMatcher().add(new IsEqualMatcher(true));
+			Mock.getArgumentsMatcher().addMatcher(new IsEqualMatcher(true));
 			return undefined;
 		}
 
 		public static function isAny():*
 		{
-			Mock.getArgumentsMatcher().add(new AnyMatcher());
+			Mock.getArgumentsMatcher().addMatcher(new AnyMatcher());
 			return undefined;
 		}
 	}
