@@ -1,9 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="Flex" version="4">
-  <component name="FlexBuildConfigurationManager" active="as3-mock">
+  <component name="FlexBuildConfigurationManager" active="tests">
     <configurations>
       <configuration name="as3-mock" pure-as="true" output-type="Library" output-file="as3-mock.swc" output-folder="$MODULE_DIR$/bin">
         <dependencies target-player="10.2">
+          <sdk name="flex_sdk_4.5" />
+        </dependencies>
+        <compiler-options />
+        <packaging-air-desktop />
+        <packaging-android />
+        <packaging-ios />
+      </configuration>
+      <configuration name="tests" output-type="Library" output-file="tests.swc" output-folder="$MODULE_DIR$/bin" skip-build="true">
+        <dependencies target-player="10.2">
+          <entries>
+            <entry library-name="flexunit" library-level="application">
+              <dependency linkage="Merged" />
+            </entry>
+          </entries>
           <sdk name="flex_sdk_4.5" />
         </dependencies>
         <compiler-options />
@@ -18,8 +32,10 @@
     <exclude-output />
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" />
     </content>
     <orderEntry type="jdk" jdkName="flex_sdk_4.5" jdkType="Flex SDK Type (new)" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" exported="" name="flexunit" level="application" />
   </component>
 </module>
