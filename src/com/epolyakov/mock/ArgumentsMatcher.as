@@ -1,22 +1,25 @@
-package com.epolyakov.mock.matchers
+package com.epolyakov.mock
 {
-	import com.epolyakov.mock.IMatcher;
-	import com.epolyakov.mock.MockSetupError;
-	import com.epolyakov.mock.Utils;
+	import com.epolyakov.mock.matchers.IsEqualMatcher;
 
 	/**
 	 * @author Evgeniy Polyakov
 	 */
-	public class ArgumentsMatcher implements IMatcher
+	internal class ArgumentsMatcher implements IMatcher
 	{
 		private var _matchers:Vector.<IMatcher> = new <IMatcher>[];
 
-		public function add(matcher:IMatcher):void
+		internal function get matchers():Vector.<IMatcher>
+		{
+			return _matchers;
+		}
+
+		internal function add(matcher:IMatcher):void
 		{
 			_matchers.push(matcher);
 		}
 
-		public function complete(arguments:Array):void
+		internal function complete(arguments:Array):void
 		{
 			var matchers:Vector.<IMatcher> = new Vector.<IMatcher>(arguments.length);
 			var defaultArgumentsLength:int = 0;

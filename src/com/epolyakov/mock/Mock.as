@@ -1,7 +1,5 @@
 package com.epolyakov.mock
 {
-	import com.epolyakov.mock.matchers.ArgumentsMatcher;
-
 	/**
 	 * @author Evgeniy Polyakov
 	 */
