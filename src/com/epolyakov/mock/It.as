@@ -31,7 +31,7 @@ package com.epolyakov.mock
 			}
 			else
 			{
-				throw new SetupError("Expected argument matcher of type IMatcher, Function or RegExp, but got " + matcher);
+				throw new MockSetupError("Expected argument matcher of type IMatcher, Function or RegExp, but got " + matcher);
 			}
 			return undefined;
 		}

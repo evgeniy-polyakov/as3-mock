@@ -30,7 +30,7 @@ package com.epolyakov.mock
 				}
 				if ((_returns as Function).length != invocation.arguments.length)
 				{
-					throw new SetupError("Arguments mismatch: " +
+					throw new MockSetupError("Arguments mismatch: " +
 							"expected " + invocation.toString() +
 							"but got " + (_returns as Function).length);
 				}
@@ -48,7 +48,7 @@ package com.epolyakov.mock
 				}
 				if ((_throws as Function).length != invocation.arguments.length)
 				{
-					throw new SetupError("Arguments mismatch: " +
+					throw new MockSetupError("Arguments mismatch: " +
 							"expected (" + invocation.toString() + ")" +
 							"but got " + (_throws as Function).length + ".");
 				}
@@ -69,7 +69,7 @@ package com.epolyakov.mock
 
 			if (invocation == null)
 			{
-				throw new SetupError("No invocation to setup.");
+				throw new MockSetupError("No invocation to setup.");
 			}
 			if (argumentsMatcher == null)
 			{

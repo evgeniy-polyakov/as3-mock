@@ -1,7 +1,7 @@
 package com.epolyakov.mock.matchers
 {
 	import com.epolyakov.mock.IMatcher;
-	import com.epolyakov.mock.SetupError;
+	import com.epolyakov.mock.MockSetupError;
 	import com.epolyakov.mock.Utils;
 
 	/**
@@ -48,7 +48,7 @@ package com.epolyakov.mock.matchers
 			}
 			if (_matchers.length > 0 && defaultArgumentsLength != _matchers.length)
 			{
-				throw new SetupError("Arguments mismatch: " +
+				throw new MockSetupError("Arguments mismatch: " +
 						"expected (" + _matchers.join(",") + ") " +
 						"but got (" + Utils.arrayToString(arguments) + ").");
 			}
