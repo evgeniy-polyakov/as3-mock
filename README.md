@@ -5,7 +5,7 @@ Simple mocking for AS3 unit tests.
 1. Mock objects are calling their methods directly, no string identifiers are used. That allows to update tests automatically when mocked methods are renamed. So your tests will be always consistent.
 2. Generating of classes is not supported because flash player does not provide it out of the box. 
 This approach has some advantages:
-    - You always have full control over your mock objects. The code you write is executed, there is no hidden or unexpected behaviour.
+    - You always have full control over your mock objects. The code you write is executed, there is no hidden or unexpected behavior.
     - Custom test runner is not required. You can start to use mocking directly in your tests.
     - No magic with bytecode, no additional classes are loaded into application domain.
 3. Minimalistic API and strictly defined workflow: create mock class once for all tests, then in each test method setup behavior of mock object, call the tested method, verify that certain methods of mock object have been called.
@@ -31,7 +31,7 @@ public class MyMock implements SomeInterface {
 ```
 Or simultaneously extending a class and implementing many interfaces. The only thing is required: your mocked method should call `Mock.invoke(this, method, ...arguments)` and return if needed.
 
-### Setup behaviour of mock object
+### Setup behavior of mock object
 In your test method your should define how the mock object will behave. 
 Instruct the mocked method to return `1` when it's called with parameters `false, "test"` or throw an exception when it's called with parameters `true, *`:
 ```actionscript
