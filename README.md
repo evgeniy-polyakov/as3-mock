@@ -52,7 +52,7 @@ testedObject.testedMethod(myMock);
 ### Verify mock object
 This is the optional step where you can verify that tested method calls correct methods of mock object with correct parameters. If not an `MockVerifyError` will be thrown and test fails.
 ```actionscript
-Mock.verify().that(myMock.someMethod(false, "test"));
+Mock.verify().that(myMock.someMethod(true, "test"));
 ```
 
 ### Clear invocations
