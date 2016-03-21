@@ -38,8 +38,8 @@ Instruct the mocked method to return `1` when it's called with parameters `false
 [Test]
 public function test():void {
   var myMock:MyMock = new MyMock();
-  Mock.setup.that(myMock.someMethod(true, "test")).returns(1);
-  Mock.setup.that(myMock.someMethod(false, It.isAny())).throws(new ArgumentError());
+  Mock.setup().that(myMock.someMethod(true, "test")).returns(1);
+  Mock.setup().that(myMock.someMethod(false, It.isAny())).throws(new ArgumentError());
   ...
 ```
 
@@ -52,7 +52,7 @@ testedObject.testedMethod(myMock);
 ### Verify mock object
 This is the optional step where you can verify that tested method calls correct methods of mock object with correct parameters. If not an `MockVerifyError` will be thrown and test fails.
 ```actionscript
-Mock.verify.that(myMock.someMethod(false, "test"));
+Mock.verify().that(myMock.someMethod(false, "test"));
 ```
 
 ### Clear invocations
