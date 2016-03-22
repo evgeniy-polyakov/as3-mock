@@ -38,68 +38,57 @@ package com.epolyakov.mock
 
 		public static function isEqual(value:*, ...values):*
 		{
-			Mock.getArgumentsMatcher().addMatcher(new IsEqualMatcher(value, values));
-			return undefined;
+			return match(new IsEqualMatcher(value, values));
 		}
 
 		public static function notEqual(value:*, ...values):*
 		{
-			Mock.getArgumentsMatcher().addMatcher(new NotEqualMatcher(value, values));
-			return undefined;
+			return match(new NotEqualMatcher(value, values));
 		}
 
 		public static function isStrictEqual(value:*, ...values):*
 		{
-			Mock.getArgumentsMatcher().addMatcher(new IsStrictEqualMatcher(value, values));
-			return undefined;
+			return match(new IsStrictEqualMatcher(value, values));
 		}
 
 		public static function notStrictEqual(value:*, ...values):*
 		{
-			Mock.getArgumentsMatcher().addMatcher(new NotStrictEqualMatcher(value, values));
-			return undefined;
+			return match(new NotStrictEqualMatcher(value, values));
 		}
 
 		public static function isOfType(type:Class, ...types):*
 		{
-			Mock.getArgumentsMatcher().addMatcher(new IsOfTypeMatcher(type, types));
-			return undefined;
+			return match(new IsOfTypeMatcher(type, types));
 		}
 
 		public static function notOfType(type:Class, ...types):*
 		{
-			Mock.getArgumentsMatcher().addMatcher(new NotOfTypeMatcher(type, types));
-			return undefined;
+			return match(new NotOfTypeMatcher(type, types));
 		}
 
 		public static function isNull():*
 		{
-			Mock.getArgumentsMatcher().addMatcher(new IsEqualMatcher(null));
-			return undefined;
+			return match(new IsEqualMatcher(null));
 		}
 
 		public static function notNull():*
 		{
-			Mock.getArgumentsMatcher().addMatcher(new NotEqualMatcher(null));
-			return undefined;
+			return match(new NotEqualMatcher(null));
 		}
 
 		public static function isFalse():Boolean
 		{
-			Mock.getArgumentsMatcher().addMatcher(new IsEqualMatcher(false));
-			return undefined;
+			return match(new IsEqualMatcher(false));
 		}
 
 		public static function isTrue():Boolean
 		{
-			Mock.getArgumentsMatcher().addMatcher(new IsEqualMatcher(true));
-			return undefined;
+			return match(new IsEqualMatcher(true));
 		}
 
 		public static function isAny():*
 		{
-			Mock.getArgumentsMatcher().addMatcher(new IsAnyMatcher());
-			return undefined;
+			return match(new IsAnyMatcher());
 		}
 	}
 }
