@@ -28,6 +28,11 @@ package com.epolyakov.mock.matchers
 			assertTrue(new IsEqualMatcher(1).match(1));
 			assertFalse(new IsEqualMatcher(0).match(1));
 			assertFalse(new IsEqualMatcher(1).match(0));
+			assertTrue(new IsEqualMatcher(NaN).match(NaN));
+			assertFalse(new IsEqualMatcher(NaN).match(1));
+			assertFalse(new IsEqualMatcher(0).match(NaN));
+			assertTrue(new IsEqualMatcher(0.0009).match(0.0009));
+			assertFalse(new IsEqualMatcher(0.0009).match(0.0008));
 
 			assertTrue(new IsEqualMatcher(1).match(true));
 			assertTrue(new IsEqualMatcher(0).match(false));
@@ -70,6 +75,7 @@ package com.epolyakov.mock.matchers
 		public function toString_ShouldReturnName():void
 		{
 			assertEquals(new IsEqualMatcher(null).toString(), "It.isNull()");
+			assertEquals(new IsEqualMatcher(NaN).toString(), "It.isEqual(NaN)");
 			assertEquals(new IsEqualMatcher(true).toString(), "It.isTrue()");
 			assertEquals(new IsEqualMatcher(false).toString(), "It.isFalse()");
 			assertEquals(new IsEqualMatcher("abc").toString(), "It.isEqual(abc)");
