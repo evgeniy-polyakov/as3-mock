@@ -45,14 +45,9 @@ package com.epolyakov.mock
 			return new Times(0, value);
 		}
 
-		public static function moreThan(value:int):Times
+		public static function between(min:int, max:int):Times
 		{
-			return new Times(value + 1, int.MAX_VALUE);
-		}
-
-		public static function lessThan(value:int):Times
-		{
-			return new Times(0, value - 1);
+			return new Times(min, max);
 		}
 
 		private var _min:int;
