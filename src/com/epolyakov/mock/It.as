@@ -1,13 +1,13 @@
 package com.epolyakov.mock
 {
-	import com.epolyakov.mock.matchers.IsAnyMatcher;
 	import com.epolyakov.mock.matchers.FunctionMatcher;
+	import com.epolyakov.mock.matchers.IsAnyMatcher;
 	import com.epolyakov.mock.matchers.IsEqualMatcher;
 	import com.epolyakov.mock.matchers.IsOfTypeMatcher;
-	import com.epolyakov.mock.matchers.IsStrictlyEqualMatcher;
+	import com.epolyakov.mock.matchers.IsStrictEqualMatcher;
 	import com.epolyakov.mock.matchers.NotEqualMatcher;
 	import com.epolyakov.mock.matchers.NotOfTypeMatcher;
-	import com.epolyakov.mock.matchers.NotStrictlyEqualMatcher;
+	import com.epolyakov.mock.matchers.NotStrictEqualMatcher;
 	import com.epolyakov.mock.matchers.RegExpMatcher;
 
 	/**
@@ -48,15 +48,15 @@ package com.epolyakov.mock
 			return undefined;
 		}
 
-		public static function isStrictlyEqual(value:*, ...values):*
+		public static function isStrictEqual(value:*, ...values):*
 		{
-			Mock.getArgumentsMatcher().addMatcher(new IsStrictlyEqualMatcher(value, values));
+			Mock.getArgumentsMatcher().addMatcher(new IsStrictEqualMatcher(value, values));
 			return undefined;
 		}
 
-		public static function notStrictlyEqual(value:*, ...values):*
+		public static function notStrictEqual(value:*, ...values):*
 		{
-			Mock.getArgumentsMatcher().addMatcher(new NotStrictlyEqualMatcher(value, values));
+			Mock.getArgumentsMatcher().addMatcher(new NotStrictEqualMatcher(value, values));
 			return undefined;
 		}
 

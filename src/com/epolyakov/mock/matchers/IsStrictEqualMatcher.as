@@ -5,11 +5,11 @@ package com.epolyakov.mock.matchers
 	/**
 	 * @author Evgeniy Polyakov
 	 */
-	public class IsStrictlyEqualMatcher extends MultiMatcher implements IMatcher
+	public class IsStrictEqualMatcher extends MultiMatcher implements IMatcher
 	{
-		public function IsStrictlyEqualMatcher(value:*, values:Array = null)
+		public function IsStrictEqualMatcher(value:*, values:Array = null)
 		{
-			super("It.isStrictlyEqual", value, values);
+			super("It.isStrictEqual", value, values);
 		}
 
 		public function match(value:*):Boolean
