@@ -32,8 +32,7 @@ public class MyMock implements SomeInterface {
 Or simultaneously extending a class and implementing many interfaces. The only thing is required: your mocked method should call `Mock.invoke(this, method, ...arguments)` and return if needed.
 
 ### Setup behavior of mock object
-In your test method your should define how the mock object will behave. 
-Instruct the mocked method to return `1` when it's called with parameters `false, "test"` or throw an exception when it's called with parameters `true, *`:
+When writing a test you should define how the mock object will behave. Instruct the mocked method to return `1` when it's called with parameters `false, "test"` or throw an exception when it's called with parameters `true, *`:
 ```actionscript
 [Test]
 public function test():void {
@@ -44,13 +43,13 @@ public function test():void {
 ```
 
 ### Call tested method
-At this step you should call your tested method which calls `myMock.someMethod`, so you can be sure that tested method behaves correctly. For example it could be done that way:
+At this step you should call your tested method which calls `myMock.someMethod`, so you can be sure that the tested method behaves correctly. For example it could be done that way:
 ```actionscript
 testedObject.testedMethod(myMock);
 ```
 
 ### Verify mock object
-This is the optional step where you can verify that tested method calls correct methods of mock object with correct parameters. If not an `MockVerifyError` will be thrown and test fails.
+At this step you verify that the tested method calls correct methods of mock object with correct parameters. If not a `MockVerifyError` will be thrown and test fails.
 ```actionscript
 Mock.verify().that(myMock.someMethod(true, "test"));
 ```
@@ -63,3 +62,27 @@ public function before():void {
   Mock.clear();
 }
 ```
+
+## Advanced features
+### Argument matchers
+When setup or verify the mocked method there is an option to use argument matcher instead of exact value of argument:
+- `It.isAny()` - the argument can have any value
+- `It.isEqual(value:*, ...values)` - the argument is equal (==) to _any_ of the given values
+- `It.isStrictEqual(value:*, ...values)` - the argument is stritly equal (===) to _any_ of the given values
+- `It.isOfType(type:*, ...types)` - the argument extends or implements _all_ of the given classes or interfaces
+- `It.notEqual(value:*, ...values)` - the argument is not equal (==) to _any_ of the given values
+- `It.notStrictEqual(value:*, ...values)` - the argument is not strictly equal (===) to _any_ of the given values
+- `It.notOfType(type:*, ...types)` - the argument does not extend or implement _any_ of the given classes or interfaces
+- `It.isNull()` - the arguemnt is null or undefined, same as `It.isEqual(null)`
+- `It.notNull()` - the argument is not null or undefined, same as `It.notEqual(null)`
+- `It.isTrue()` - the argument is true, same as `It.isEqual(true)`
+- `It.isFalse()` - the argument is false, same as `It.isEqual(false)`
+- `It.match(matcher:IMatcher)` - the argument is matched by custom `IMatcher` object
+- `It.match(func:Function)` - the argument is matched by `function(value:*):Boolean`
+- `It.match(regexp:RegExp)` - the argument is converted to string and tested by the given `RegExp`
+
+> Note that you can not combine `null`, `undefined`, `0`, `NaN`, `false` with matchers in one list of function arguments. Otherwise the library can not detect which argument has a matcher and wich one has a value and `MockSetupError` will be thrown. Incorrect: ~~`myMock.someMethod(false, It.isAny())`~~. Correct:`myMock.someMethod(It.isEqual(false), It.isAny())`.
+
+### Callbacks
+
+### Verifying order of execution
