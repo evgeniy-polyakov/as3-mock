@@ -32,7 +32,7 @@ public class MyMock implements SomeInterface {
 Or simultaneously extending a class and implementing many interfaces. The only thing is required: your mocked method should call `Mock.invoke(this, method, ...arguments)` and return if needed.
 
 ### Setup behavior of mock object
-When writing a test you should define how the mock object will behave. Instruct the mocked method to return `1` when it's called with parameters `false, "test"` or throw an exception when it's called with parameters `true, *`:
+When writing a test you should define how the mock object will behave. Instruct the mocked method to return `1` when it's called with arguments `false, "test"` or throw an exception when it's called with arguments `true, *`:
 ```actionscript
 [Test]
 public function test():void {
@@ -49,7 +49,7 @@ testedObject.testedMethod(myMock);
 ```
 
 ### Verify mock object
-At this step you verify that the tested method calls correct methods of mock object with correct parameters. If not a `MockVerifyError` will be thrown and test fails.
+At this step you verify that the tested method calls correct methods of mock object with correct arguments. If not a `MockVerifyError` will be thrown and test fails.
 ```actionscript
 Mock.verify().that(myMock.someMethod(true, "test"));
 ```
@@ -83,6 +83,41 @@ When setup or verify the mocked method there is an option to use argument matche
 
 > Note that you can not combine `null`, `undefined`, `0`, `NaN`, `false` with matchers in one list of function arguments. Otherwise the library can not detect which argument has a matcher and wich one has a value and `MockSetupError` will be thrown. Incorrect: ~~`myMock.someMethod(false, It.isAny())`~~. Correct:`myMock.someMethod(It.isEqual(false), It.isAny())`.
 
-### Callbacks
+### Setup callbacks
+Setup of mocked method supports callbacks to compute the returned value based on the method arguments. Just specify the function in `returns` and make sure it takes the same parameters as the mocked method.
+```actionscript
+Mock.setup(myMock.someMethod(It.isAny(), It.isAny())).returns(function (b:Boolean, s:String):int {
+    return b ? 0 : 1;
+});
+```
+Callbacks with no parameters and no return value are also supported:
+```actionscript
+Mock.setup(myMock.someMethod(It.isAny(), It.isAny())).returns(function ():void {
+    trace("someMethod is invoked");
+});
+```
+Since functions in `returns` are handled specifically the only way to return a function from the mocked method is using callbacks:
+```
+Mock.setup(myMock.getFunction(It.isAny())).returns(function (arg:*):Function {
+    return function():void {};
+});
+```
+Similarly you can set a callback in `throws`:
+```
+Mock.setup(myMock.someMethod(It.isAny(), It.isAny())).throws(function (b:Boolean, s:String):int {
+    return b ? new ArgumentError() : new Error(s);
+});
+```
+
+### Verifying number of invocations
+In verification step you can specify how many times you expect the method to be invoked. By default you verify that the method is called exactly once. Here are other options:
+- `Times.never` - the method with the given arguments is never called
+- `Times.once`, `Times.twice`, `Times.thrice` - the method is called once, twice or thrice
+- `Times.exactly(n)` - the method is called exactly `n` times
+- `Times.atLeast(n)` - the method is called `n` times or more
+- `Times.moreThan(n)` - the method is called more than `n` times
+- `Times.atMost(n)` - the method is called `n` times or less
+- `Times.lessThan(n)` - the method is called less than `n` times
+- `n` - exact number of invocations, same as `Times.exactly(n)`
 
 ### Verifying order of execution
