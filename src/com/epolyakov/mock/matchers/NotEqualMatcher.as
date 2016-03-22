@@ -16,7 +16,7 @@ package com.epolyakov.mock.matchers
 		{
 			for each(var v:* in _values)
 			{
-				if (v == value)
+				if (v == value || (v is Number && isNaN(v) && value is Number && isNaN(value)))
 				{
 					return false;
 				}
