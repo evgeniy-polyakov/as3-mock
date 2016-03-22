@@ -110,14 +110,18 @@ Mock.setup(myMock.someMethod(It.isAny(), It.isAny())).throws(function (b:Boolean
 ```
 
 ### Verifying number of invocations
-In verification step you can specify how many times you expect the method to be invoked. By default you verify that the method is called exactly once. Here are other options:
+At verification step you can specify how many times you expect the method to be invoked. By default you verify that the method is called exactly once. Here are other options:
 - `Times.never` - the method with the given arguments is never called
 - `Times.once`, `Times.twice`, `Times.thrice` - the method is called once, twice or thrice
 - `Times.exactly(n)` - the method is called exactly `n` times
 - `Times.atLeast(n)` - the method is called `n` times or more
-- `Times.moreThan(n)` - the method is called more than `n` times
 - `Times.atMost(n)` - the method is called `n` times or less
-- `Times.lessThan(n)` - the method is called less than `n` times
+- `Times.between(n,m)` - the method is called between `n` and `m` times inclusive
 - `n` - exact number of invocations, same as `Times.exactly(n)`
+- `0` - the method is never called, same as `Times.never`
+Example:
+```
+Mock.verify().that(myMock.someMethod(true, "test"), Times.never);
+```
 
 ### Verifying order of execution
