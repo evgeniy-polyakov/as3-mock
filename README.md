@@ -84,5 +84,22 @@ When setup or verify the mocked method there is an option to use argument matche
 > Note that you can not combine `null`, `undefined`, `0`, `NaN`, `false` with matchers in one list of function arguments. Otherwise the library can not detect which argument has a matcher and wich one has a value and `MockSetupError` will be thrown. Incorrect: ~~`myMock.someMethod(false, It.isAny())`~~. Correct:`myMock.someMethod(It.isEqual(false), It.isAny())`.
 
 ### Callbacks
-
+Setup of mocked method supports callbacks to compute the returned value based on the method arguments. Just specify the function in `returns` and make sure it takes same parameters as the mocked method. 
+```actionscript
+Mock.setup(myMock.someMethod(It.isAny(), It.isAny())).returns(function (b:Boolean, s:String):int {
+    return b ? 0 : 1;
+});
+```
+Since functions in `returns` are handled specifically the only way to return a function from the mocked method is using callbacks:
+```
+Mock.setup(myMock.getFunction(It.isAny())).returns(function (arg:*):Function {
+    return function():void {};
+});
+```
+Similarly you can set a callback in `throws`:
+```
+Mock.setup(myMock.someMethod(It.isAny(), It.isAny())).throws(function (b:Boolean, s:String):int {
+    return b ? new ArgumentError() : new Error(s);
+});
+```
 ### Verifying order of execution
