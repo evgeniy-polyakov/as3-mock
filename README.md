@@ -129,5 +129,17 @@ Mock.verify().that(myMock.someMethod(false, "test"), Times.atLeast(2));
 ```
 
 ### Verifying total number of invocations
+Sometimes there is a need to verify total number of all invocations made on all mock objects. For example you are testing that a method is called and would like to be sure that no other methods have been called.
+```actionscript
+Mock.verify().total(Times.once);
+```
+You can pass any `Times` or a number into this method.
 
 ### Verifying order of execution
+All invocations are stored by `Mock` in order of execution and you are able to verify that some method is called before the other. It could be done using chained `verify()` methods:
+```actionscript
+Mock.verify().that(myMock.someMethod(true, "test"))
+    .verify().that(otherMock.otherMethod());
+```
+
+> Note that verification is a greedy: it starts to search the second method only after the last invocation of the first method.
