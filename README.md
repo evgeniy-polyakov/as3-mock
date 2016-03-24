@@ -97,13 +97,13 @@ Mock.setup(myMock.someMethod(It.isAny(), It.isAny())).returns(function ():void {
 });
 ```
 Since functions in `returns` are handled specifically the only way to return a function from the mocked method is using callbacks:
-```
+```actionscript
 Mock.setup(myMock.getFunction(It.isAny())).returns(function (arg:*):Function {
     return function():void {};
 });
 ```
 Similarly you can set a callback in `throws`:
-```
+```actionscript
 Mock.setup(myMock.someMethod(It.isAny(), It.isAny())).throws(function (b:Boolean, s:String):int {
     return b ? new ArgumentError() : new Error(s);
 });
@@ -112,16 +112,34 @@ Mock.setup(myMock.someMethod(It.isAny(), It.isAny())).throws(function (b:Boolean
 ### Verifying number of invocations
 At verification step you can specify how many times you expect the method to be invoked. By default you verify that the method is called exactly once. Here are other options:
 - `Times.never` - the method with the given arguments is never called
-- `Times.once`, `Times.twice`, `Times.thrice` - the method is called once, twice or thrice
+- `Times.once` - the method is called once, this is default number of invocations verifyed 
+- `Times.twice` - the method is called twice
+- `Times.thrice` - the method is called thrice
 - `Times.exactly(n)` - the method is called exactly `n` times
 - `Times.atLeast(n)` - the method is called `n` times or more
 - `Times.atMost(n)` - the method is called `n` times or less
 - `Times.between(n,m)` - the method is called between `n` and `m` times inclusive
 - `n` - exact number of invocations, same as `Times.exactly(n)`
 - `0` - the method is never called, same as `Times.never`
+
 Example:
-```
+```actionscript
 Mock.verify().that(myMock.someMethod(true, "test"), Times.never);
+Mock.verify().that(myMock.someMethod(false, "test"), Times.atLeast(2));
 ```
 
+### Verifying total number of invocations
+Sometimes there is a need to verify total number of all invocations made on all mock objects. For example you are testing that a method is called and would like to be sure that no other methods have been called.
+```actionscript
+Mock.verify().total(Times.once);
+```
+You can pass any `Times` or a number into this method.
+
 ### Verifying order of execution
+All invocations are stored in order of execution and you are able to verify that some method is called before the other. It could be done using chained `verify()` methods:
+```actionscript
+Mock.verify().that(myMock.someMethod(true, "test"))
+    .verify().that(otherMock.otherMethod());
+```
+
+> Note that verification is a greedy: it starts to search the second method only after the last invocation of the first method.
