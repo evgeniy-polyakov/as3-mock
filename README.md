@@ -97,13 +97,13 @@ Mock.setup(myMock.someMethod(It.isAny(), It.isAny())).returns(function ():void {
 });
 ```
 Since functions in `returns` are handled specifically the only way to return a function from the mocked method is using callbacks:
-```
+```actionscript
 Mock.setup(myMock.getFunction(It.isAny())).returns(function (arg:*):Function {
     return function():void {};
 });
 ```
 Similarly you can set a callback in `throws`:
-```
+```actionscript
 Mock.setup(myMock.someMethod(It.isAny(), It.isAny())).throws(function (b:Boolean, s:String):int {
     return b ? new ArgumentError() : new Error(s);
 });
@@ -120,8 +120,10 @@ At verification step you can specify how many times you expect the method to be 
 - `n` - exact number of invocations, same as `Times.exactly(n)`
 - `0` - the method is never called, same as `Times.never`
 Example:
-```
+```actionscript
 Mock.verify().that(myMock.someMethod(true, "test"), Times.never);
 ```
+
+### Verifying total number of invocations
 
 ### Verifying order of execution
