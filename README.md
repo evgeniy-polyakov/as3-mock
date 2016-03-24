@@ -136,7 +136,7 @@ Mock.verify().total(Times.once);
 You can pass any `Times` or a number into this method.
 
 ### Verifying order of execution
-All invocations are stored by `Mock` in order of execution and you are able to verify that some method is called before the other. It could be done using chained `verify()` methods:
+All invocations are stored in order of execution and you are able to verify that some method is called before the other. It could be done using chained `verify()` methods:
 ```actionscript
 Mock.verify().that(myMock.someMethod(true, "test"))
     .verify().that(otherMock.otherMethod());
