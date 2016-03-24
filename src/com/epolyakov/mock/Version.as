@@ -6,6 +6,6 @@ package com.epolyakov.mock
 	public class Version
 	{
 		public static const number:String = "1.0.0";
-		public static const date:String = "2016-09-03";
+		public static const date:String = "2016-03-24";
 	}
 }
