@@ -7,7 +7,7 @@ package com.epolyakov.mock.matchers
 	 */
 	public class IsOfTypeMatcher extends MultiMatcher implements IMatcher
 	{
-		public function IsOfTypeMatcher(value:Class, values:Array)
+		public function IsOfTypeMatcher(value:Class, values:Array = null)
 		{
 			super("It.isOfType", value, values);
 		}
