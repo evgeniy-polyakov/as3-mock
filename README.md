@@ -37,8 +37,8 @@ When writing a test you should define how the mock object will behave. Instruct 
 [Test]
 public function test():void {
   var myMock:MyMock = new MyMock();
-  Mock.setup().that(myMock.someMethod(true, "test")).returns(1);
-  Mock.setup().that(myMock.someMethod(false, It.isAny())).throws(new ArgumentError());
+  Mock.setup().that(myMock.someMethod(false, "test")).returns(1);
+  Mock.setup().that(myMock.someMethod(true, It.isAny())).throws(new ArgumentError());
   ...
 ```
 
@@ -51,7 +51,7 @@ testedObject.testedMethod(myMock);
 ### Verify mock object
 At this step you verify that the tested method calls correct methods of mock object with correct arguments. If not a `MockVerifyError` will be thrown and test fails.
 ```actionscript
-Mock.verify().that(myMock.someMethod(true, "test"));
+Mock.verify().that(myMock.someMethod(false, "test"));
 ```
 
 ### Clear invocations
@@ -138,8 +138,8 @@ You can pass any `Times` or a number into this method.
 ### Verifying order of execution
 All invocations are stored in order of execution and you are able to verify that some method is called before the other. It can be done using chained `verify()` methods:
 ```actionscript
-Mock.verify().that(myMock.someMethod(true, "test"))
+Mock.verify().that(myMock.someMethod(false, "test"))
     .verify().that(otherMock.otherMethodCalledAfter());
 ```
 
-> Note that verification is greedy: it starts to search the second method only after the last invocation of the first method.
+> Note that verification is greedy: it starts to search the second method only after the last invocation of the first method with the given arguments.
