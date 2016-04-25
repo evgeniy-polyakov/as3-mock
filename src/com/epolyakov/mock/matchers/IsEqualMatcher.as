@@ -28,7 +28,7 @@ package com.epolyakov.mock.matchers
 		{
 			if (_values.length == 1)
 			{
-				var value = _values[0];
+				var value:* = _values[0];
 				if (value === null)
 				{
 					return "It.isNull()";
@@ -40,10 +40,6 @@ package com.epolyakov.mock.matchers
 				if (value === false)
 				{
 					return "It.isFalse()";
-				}
-				if (value is Number && isNaN(value))
-				{
-					return "It.isNaN()";
 				}
 			}
 			return super.toString();

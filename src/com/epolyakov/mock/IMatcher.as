@@ -6,5 +6,7 @@ package com.epolyakov.mock
 	public interface IMatcher
 	{
 		function match(value:*):Boolean;
+
+		function toString():String;
 	}
 }

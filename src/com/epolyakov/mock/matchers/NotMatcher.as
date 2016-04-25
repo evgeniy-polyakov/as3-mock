@@ -21,7 +21,16 @@ package com.epolyakov.mock.matchers
 
 		public function toString():String
 		{
-			return _matcher.toString().replace("It.is", "It.not");
+			var s:String = _matcher.toString();
+			if (s == "It.isTrue()")
+			{
+				return "It.isFalse()";
+			}
+			if (s == "It.isFalse()")
+			{
+				return "It.isTrue()";
+			}
+			return s.replace("It.is", "It.not");
 		}
 	}
 }

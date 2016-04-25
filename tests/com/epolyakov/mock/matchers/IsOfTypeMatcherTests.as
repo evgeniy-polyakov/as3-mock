@@ -35,6 +35,7 @@ package com.epolyakov.mock.matchers
 		public function toString_ShouldReturnName():void
 		{
 			assertEquals(new IsOfTypeMatcher(Object).toString(), "It.isOfType([class Object])");
+			assertEquals(new IsOfTypeMatcher(EventDispatcher, [IBitmapDrawable]).toString(), "It.isOfType([class EventDispatcher],[class IBitmapDrawable])");
 		}
 	}
 }
