@@ -38,8 +38,8 @@ package com.epolyakov.mock
 			}
 			if (value != null)
 			{
+				var x:XML = describeType(value);
 				var qName:String = describeType(value).@name.toXMLString();
-				var s:XML = describeType(value);
 				var index:int = qName.indexOf("::");
 				if (index >= 0)
 				{
@@ -52,9 +52,17 @@ package com.epolyakov.mock
 
 		public static function arrayToString(array:Array):String
 		{
+			if (array == null)
+			{
+				return "";
+			}
 			return array.map(function (item:*, ...rest):String
 			{
-				if (item == null)
+				if (item === undefined)
+				{
+					return "undefined";
+				}
+				if (item === null)
 				{
 					return "null";
 				}
