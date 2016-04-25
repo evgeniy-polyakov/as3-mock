@@ -3,6 +3,7 @@ package com.epolyakov.mock
 	import com.epolyakov.mock.matchers.FunctionMatcher;
 	import com.epolyakov.mock.matchers.IsAnyMatcher;
 	import com.epolyakov.mock.matchers.IsEqualMatcher;
+	import com.epolyakov.mock.matchers.IsLikeMatcher;
 	import com.epolyakov.mock.matchers.IsOfTypeMatcher;
 	import com.epolyakov.mock.matchers.IsStrictEqualMatcher;
 	import com.epolyakov.mock.matchers.NotMatcher;
@@ -62,6 +63,16 @@ package com.epolyakov.mock
 		public static function notOfType(type:Class, ...types):*
 		{
 			return match(new NotMatcher(new IsOfTypeMatcher(type, types)));
+		}
+
+		public static function isLike(value:*):*
+		{
+			return match(new IsLikeMatcher(value));
+		}
+
+		public static function notLike(value:*):*
+		{
+			return match(new NotMatcher(new IsLikeMatcher(value)));
 		}
 
 		public static function isNull():*
