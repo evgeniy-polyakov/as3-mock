@@ -28,17 +28,22 @@ package com.epolyakov.mock.matchers
 		{
 			if (_values.length == 1)
 			{
-				if (_values[0] === null)
+				var value = _values[0];
+				if (value === null)
 				{
 					return "It.isNull()";
 				}
-				if (_values[0] === true)
+				if (value === true)
 				{
 					return "It.isTrue()";
 				}
-				if (_values[0] === false)
+				if (value === false)
 				{
 					return "It.isFalse()";
+				}
+				if (value is Number && isNaN(value))
+				{
+					return "It.isNaN()";
 				}
 			}
 			return super.toString();

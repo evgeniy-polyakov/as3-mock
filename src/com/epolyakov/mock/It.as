@@ -5,9 +5,7 @@ package com.epolyakov.mock
 	import com.epolyakov.mock.matchers.IsEqualMatcher;
 	import com.epolyakov.mock.matchers.IsOfTypeMatcher;
 	import com.epolyakov.mock.matchers.IsStrictEqualMatcher;
-	import com.epolyakov.mock.matchers.NotEqualMatcher;
-	import com.epolyakov.mock.matchers.NotOfTypeMatcher;
-	import com.epolyakov.mock.matchers.NotStrictEqualMatcher;
+	import com.epolyakov.mock.matchers.NotMatcher;
 	import com.epolyakov.mock.matchers.RegExpMatcher;
 
 	/**
@@ -43,7 +41,7 @@ package com.epolyakov.mock
 
 		public static function notEqual(value:*, ...values):*
 		{
-			return match(new NotEqualMatcher(value, values));
+			return match(new NotMatcher(new IsEqualMatcher(value, values)));
 		}
 
 		public static function isStrictEqual(value:*, ...values):*
@@ -53,7 +51,7 @@ package com.epolyakov.mock
 
 		public static function notStrictEqual(value:*, ...values):*
 		{
-			return match(new NotStrictEqualMatcher(value, values));
+			return match(new NotMatcher(new IsStrictEqualMatcher(value, values)));
 		}
 
 		public static function isOfType(type:Class, ...types):*
@@ -63,7 +61,7 @@ package com.epolyakov.mock
 
 		public static function notOfType(type:Class, ...types):*
 		{
-			return match(new NotOfTypeMatcher(type, types));
+			return match(new NotMatcher(new IsOfTypeMatcher(type, types)));
 		}
 
 		public static function isNull():*
@@ -73,7 +71,7 @@ package com.epolyakov.mock
 
 		public static function notNull():*
 		{
-			return match(new NotEqualMatcher(null));
+			return match(new NotMatcher(new IsEqualMatcher(null)));
 		}
 
 		public static function isFalse():Boolean
