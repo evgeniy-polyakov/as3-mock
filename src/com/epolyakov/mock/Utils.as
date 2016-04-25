@@ -50,28 +50,39 @@ package com.epolyakov.mock
 			return "";
 		}
 
-		public static function arrayToString(array:Array):String
+		public static function toString(value:*):String
 		{
-			if (array == null)
+			if (value === undefined)
 			{
-				return "";
+				return "undefined";
 			}
-			return array.map(function (item:*, ...rest):String
+			if (value === null)
 			{
-				if (item === undefined)
+				return "null";
+			}
+			if (value is ByteArray)
+			{
+				return "[object " + objectToClassName(value) + "]";
+			}
+			if (value is XML || value is XMLList)
+			{
+				return value.toXMLString();
+			}
+			if (isArray(value))
+			{
+				var s:String = "";
+				for each (var v:* in value)
 				{
-					return "undefined";
+					s += toString(v) + ",";
 				}
-				if (item === null)
-				{
-					return "null";
-				}
-				if (item is ByteArray)
-				{
-					return "[object " + objectToClassName(item) + "]";
-				}
-				return item.toString();
-			}).join(",");
+				return s.slice(0, -1);
+			}
+			return value.toString();
+		}
+
+		private static function isArray(value:*):Boolean
+		{
+			return value is Array || describeType(value).@name.toXMLString().indexOf("__AS3__.vec::Vector") == 0;
 		}
 	}
 }

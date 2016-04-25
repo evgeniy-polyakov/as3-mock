@@ -53,7 +53,7 @@ package com.epolyakov.mock
 			{
 				throw new MockSetupError("Arguments mismatch: " +
 						"expected (" + _matchers.join(",") + ") " +
-						"but got (" + Utils.arrayToString(arguments) + ").");
+						"but got (" + Utils.toString(arguments) + ").");
 			}
 			_matchers = matchers;
 		}

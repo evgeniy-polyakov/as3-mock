@@ -26,7 +26,7 @@ package com.epolyakov.mock.matchers
 
 		public function toString():String
 		{
-			return _name + "(" + Utils.arrayToString(_values) + ")";
+			return _name + "(" + Utils.toString(_values) + ")";
 		}
 	}
 }

@@ -31,11 +31,11 @@ package com.epolyakov.mock
 			return _arguments;
 		}
 
-		public function toString(arguments:Object = null):String
+		public function toString(arguments:ArgumentsMatcher = null):String
 		{
 			var s:String = _object != null ? Utils.objectToClassName(_object) + "." : "";
 			s += Utils.functionToMethodName(_method, _object);
-			s += "(" + (arguments ? arguments.toString() : Utils.arrayToString(_arguments)) + ")";
+			s += "(" + (arguments ? arguments.toString() : Utils.toString(_arguments)) + ")";
 			return s;
 		}
 	}
