@@ -47,6 +47,31 @@ package com.epolyakov.mock.matchers
 
 			assertTrue(new IsEqualMatcher(XML).match(XML));
 			assertFalse(new IsEqualMatcher(Object).match(XML));
+
+			assertTrue(new IsLikeMatcher(<x a="b"/>).match(<x a="b"/>));
+			assertFalse(new IsLikeMatcher(<x a="b"/>).match(<x a="b" c="d"/>));
+			assertTrue(new IsLikeMatcher(<x>
+					<a/>
+					<b/>
+					</x>.children()).match(<x>
+					<a/>
+					<b/>
+					</x>.children()));
+			assertFalse(new IsLikeMatcher(<x>
+					<a a="a"/>
+					<b/>
+					</x>.children()).match(<x>
+					<a/>
+					<b/>
+					</x>.children()));
+			assertFalse(new IsLikeMatcher(<x>
+					<a/>
+					<b/>
+					<c/>
+					</x>.children()).match(<x>
+					<a/>
+					<b/>
+					</x>.children()));
 		}
 
 		[Test]

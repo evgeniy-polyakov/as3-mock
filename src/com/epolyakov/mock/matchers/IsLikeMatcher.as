@@ -17,25 +17,40 @@ package com.epolyakov.mock.matchers
 
 		public function match(value:*):Boolean
 		{
-			if (new IsEqualMatcher(_value).match(value))
+			return matchRecursive(_value, value);
+		}
+
+		public function toString():String
+		{
+			return "It.isLike(" + Utils.toString(_value) + ")";
+		}
+
+		private static function matchRecursive(a:*, b:*):Boolean
+		{
+			if (a == b || (a is Number && isNaN(a) && b is Number && isNaN(b)))
 			{
 				return true;
 			}
-			if (_value != null && value != null)
+			if (a is Number || a is Boolean || a is String || a is XML || a is XMLList || a is Class ||
+					b is Number || b is Boolean || b is String || b is XML || b is XMLList || b is Class)
+			{
+				return false;
+			}
+			if (a != null && b != null)
 			{
 				try
 				{
 					var prop:String;
-					for (prop in _value)
+					for (prop in a)
 					{
-						if (_value[prop] != value[prop])
+						if (!matchRecursive(a[prop], b[prop]))
 						{
 							return false;
 						}
 					}
-					for (prop in value)
+					for (prop in b)
 					{
-						if (value[prop] != _value[prop])
+						if (!matchRecursive(b[prop], a[prop]))
 						{
 							return false;
 						}
@@ -48,11 +63,6 @@ package com.epolyakov.mock.matchers
 				return true;
 			}
 			return false;
-		}
-
-		public function toString():String
-		{
-			return "It.isLike(" + Utils.toString(_value) + ")";
 		}
 	}
 }
