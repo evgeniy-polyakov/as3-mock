@@ -13,7 +13,7 @@ package com.epolyakov.mock.matchers
 	public class NotMatcherTests
 	{
 		[Test]
-		public function match_ShouldReturnNegateResult():void
+		public function match_ShouldNegateResult():void
 		{
 			assertFalse(new NotMatcher(new IsAnyMatcher()).match({}));
 			assertFalse(new NotMatcher(new IsEqualMatcher(true)).match(true));
