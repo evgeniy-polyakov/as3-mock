@@ -81,7 +81,7 @@ package com.epolyakov.mock
 
 			Mock.setup().that(Mock.invoke(mock, mock.testMethod, 1, "a", true, obj)).returns(1);
 			Mock.setup().that(Mock.invoke(mock, mock.testMethod, 1, "a", true, obj)).returns(10);
-			var result = Mock.invoke(mock, mock.testMethod, 1, "a", true, obj);
+			var result:* = Mock.invoke(mock, mock.testMethod, 1, "a", true, obj);
 
 			assertEquals(10, result);
 		}
@@ -94,7 +94,7 @@ package com.epolyakov.mock
 
 			Mock.setup().that(Mock.invoke(mock, mock.testMethod, 1, "a", true, obj)).returns(1);
 			Mock.setup().that(Mock.invoke(mock, mock.testMethod, 1, "b", true, obj)).returns(10);
-			var result = Mock.invoke(mock, mock.testMethod, 1, "a", true, obj);
+			var result:* = Mock.invoke(mock, mock.testMethod, 1, "a", true, obj);
 
 			assertEquals(1, result);
 		}
@@ -107,7 +107,7 @@ package com.epolyakov.mock
 
 			Mock.setup().that(Mock.invoke(mock, mock.testMethod, 1, "b", true, obj)).returns(1);
 			Mock.setup().that(Mock.invoke(mock, mock.testMethod, 1, "b", true, obj)).returns(10);
-			var result = Mock.invoke(mock, mock.testMethod, 1, "a", true, obj);
+			var result:* = Mock.invoke(mock, mock.testMethod, 1, "a", true, obj);
 
 			assertEquals(undefined, result);
 		}
@@ -120,7 +120,7 @@ package com.epolyakov.mock
 
 			Mock.setup().that(Mock.invoke(mock, mock.testMethod, It.isAny(), It.isAny(), It.isAny(), It.isAny())).returns(1);
 			Mock.setup().that(Mock.invoke(mock, mock.testMethod, It.isEqual(1), It.isEqual("a"), It.isTrue(), It.isEqual(obj))).returns(10);
-			var result = Mock.invoke(mock, mock.testMethod, 1, "a", true, obj);
+			var result:* = Mock.invoke(mock, mock.testMethod, 1, "a", true, obj);
 
 			assertEquals(10, result);
 		}
@@ -133,7 +133,7 @@ package com.epolyakov.mock
 
 			Mock.setup().that(Mock.invoke(mock, mock.testMethod, It.isAny(), It.isAny(), It.isAny(), It.isAny())).returns(1);
 			Mock.setup().that(Mock.invoke(mock, mock.testMethod, It.isEqual(1), It.isEqual("b"), It.isTrue(), It.isEqual(obj))).returns(10);
-			var result = Mock.invoke(mock, mock.testMethod, 1, "a", true, obj);
+			var result:* = Mock.invoke(mock, mock.testMethod, 1, "a", true, obj);
 
 			assertEquals(1, result);
 		}
@@ -146,7 +146,7 @@ package com.epolyakov.mock
 
 			Mock.setup().that(Mock.invoke(mock, mock.testMethod, It.isAny(), It.isAny(), It.isAny(), It.isNull())).returns(1);
 			Mock.setup().that(Mock.invoke(mock, mock.testMethod, It.isEqual(1), It.isEqual("b"), It.isTrue(), It.isEqual(obj))).returns(10);
-			var result = Mock.invoke(mock, mock.testMethod, 1, "a", true, obj);
+			var result:* = Mock.invoke(mock, mock.testMethod, 1, "a", true, obj);
 
 			assertEquals(undefined, result);
 		}
@@ -159,7 +159,7 @@ package com.epolyakov.mock
 
 			Mock.setup().that(Mock.invoke(mock, mock.testMethod, It.isAny(), It.isAny(), true, obj)).returns(1);
 			Mock.setup().that(Mock.invoke(mock, mock.testMethod, 1, "a", It.isTrue(), It.isEqual(obj))).returns(10);
-			var result = Mock.invoke(mock, mock.testMethod, 1, "a", true, obj);
+			var result:* = Mock.invoke(mock, mock.testMethod, 1, "a", true, obj);
 
 			assertEquals(10, result);
 		}
@@ -172,7 +172,7 @@ package com.epolyakov.mock
 
 			Mock.setup().that(Mock.invoke(mock, mock.testMethod, It.isAny(), It.isAny(), true, obj)).returns(1);
 			Mock.setup().that(Mock.invoke(mock, mock.testMethod, 1, "b", It.isTrue(), It.isEqual(obj))).returns(10);
-			var result = Mock.invoke(mock, mock.testMethod, 1, "a", true, obj);
+			var result:* = Mock.invoke(mock, mock.testMethod, 1, "a", true, obj);
 
 			assertEquals(1, result);
 		}
@@ -185,7 +185,7 @@ package com.epolyakov.mock
 
 			Mock.setup().that(Mock.invoke(mock, mock.testMethod, It.isAny(), It.isAny(), true, {})).returns(1);
 			Mock.setup().that(Mock.invoke(mock, mock.testMethod, 1, "a", It.isFalse(), It.isEqual(obj))).returns(10);
-			var result = Mock.invoke(mock, mock.testMethod, 1, "a", true, obj);
+			var result:* = Mock.invoke(mock, mock.testMethod, 1, "a", true, obj);
 
 			assertEquals(undefined, result);
 		}
@@ -200,7 +200,7 @@ package com.epolyakov.mock
 			{
 				return 10;
 			});
-			var result = Mock.invoke(mock, mock.testMethod, 1, "a", true, obj);
+			var result:* = Mock.invoke(mock, mock.testMethod, 1, "a", true, obj);
 
 			assertEquals(10, result);
 		}
@@ -215,7 +215,7 @@ package com.epolyakov.mock
 			{
 				return i + s + b + o;
 			});
-			var result = Mock.invoke(mock, mock.testMethod, 1, "a", true, obj);
+			var result:* = Mock.invoke(mock, mock.testMethod, 1, "a", true, obj);
 
 			assertEquals("1atrue[object Object]", result);
 		}
@@ -230,7 +230,7 @@ package com.epolyakov.mock
 			{
 				return i + s + b + o;
 			});
-			var result = Mock.invoke(mock, mock.testMethodVarArgs, 1, "a", true, obj);
+			var result:* = Mock.invoke(mock, mock.testMethodVarArgs, 1, "a", true, obj);
 
 			assertEquals("1atrue[object Object]", result);
 		}
@@ -439,15 +439,74 @@ package com.epolyakov.mock
 			var mock:MockObject = new MockObject();
 			var obj:Object = {};
 			var expectation:Expectation = Mock.setup() as Expectation;
-			expectation.that(Mock.invoke(mock, mock.testMethod, It.isEqual(1), It.isOfType(String), It.isTrue(), It.isNull()));
+			expectation.that(Mock.invoke(mock, mock.testMethod, It.isEqual(1), It.isOfType(String), It.isTrue(), It.isEqual(obj)));
 
 			assertEquals(mock, expectation.object);
 			assertEquals(mock.testMethod, expectation.method);
 			assertEquals(4, expectation.argumentsMatcher.length);
-			assertEquals("It.isEqual(1),It.isOfType([class String]),It.isTrue(),It.isNull()", expectation.argumentsMatcher.toString());
+			assertEquals("It.isEqual(1),It.isOfType([class String]),It.isTrue(),It.isEqual([object Object])", expectation.argumentsMatcher.toString());
 		}
 
-		private function testInvocation(invocation:Invocation, object:Object, method:Function, ...args)
+		[Test]
+		public function setupThat_ArgumentValuesAndMatchers_ShouldConfigureExpectation():void
+		{
+			var mock:MockObject = new MockObject();
+			var obj:Object = {};
+			var expectation:Expectation = Mock.setup() as Expectation;
+			expectation.that(Mock.invoke(mock, mock.testMethod, 1, It.isOfType(String), true, It.isEqual(obj)));
+
+			assertEquals(mock, expectation.object);
+			assertEquals(mock.testMethod, expectation.method);
+			assertEquals(4, expectation.argumentsMatcher.length);
+			assertEquals("It.isEqual(1),It.isOfType([class String]),It.isTrue(),It.isEqual([object Object])", expectation.argumentsMatcher.toString());
+		}
+
+		[Test(expects="com.epolyakov.mock.MockSetupError")]
+		public function setupThat_ArgumentDefaultNumberAndMatchers_ShouldFail():void
+		{
+			var mock:MockObject = new MockObject();
+			var obj:Object = {};
+			var expectation:Expectation = Mock.setup() as Expectation;
+			expectation.that(Mock.invoke(mock, mock.testMethod, 0, It.isOfType(String), true, It.isEqual(obj)));
+		}
+
+		[Test(expects="com.epolyakov.mock.MockSetupError")]
+		public function setupThat_ArgumentNaNAndMatchers_ShouldFail():void
+		{
+			var mock:MockObject = new MockObject();
+			var obj:Object = {};
+			var expectation:Expectation = Mock.setup() as Expectation;
+			expectation.that(Mock.invoke(mock, mock.testMethod, NaN, It.isOfType(String), true, It.isEqual(obj)));
+		}
+
+		[Test(expects="com.epolyakov.mock.MockSetupError")]
+		public function setupThat_ArgumentNullAndMatchers_ShouldFail():void
+		{
+			var mock:MockObject = new MockObject();
+			var obj:Object = {};
+			var expectation:Expectation = Mock.setup() as Expectation;
+			expectation.that(Mock.invoke(mock, mock.testMethod, 1, It.isOfType(String), true, null));
+		}
+
+		[Test(expects="com.epolyakov.mock.MockSetupError")]
+		public function setupThat_ArgumentUndefinedAndMatchers_ShouldFail():void
+		{
+			var mock:MockObject = new MockObject();
+			var obj:Object = {};
+			var expectation:Expectation = Mock.setup() as Expectation;
+			expectation.that(Mock.invoke(mock, mock.testMethod, 1, It.isOfType(String), true, undefined));
+		}
+
+		[Test(expects="com.epolyakov.mock.MockSetupError")]
+		public function setupThat_ArgumentFalseAndMatchers_ShouldFail():void
+		{
+			var mock:MockObject = new MockObject();
+			var obj:Object = {};
+			var expectation:Expectation = Mock.setup() as Expectation;
+			expectation.that(Mock.invoke(mock, mock.testMethod, 1, It.isOfType(String), false, It.isEqual(obj)));
+		}
+
+		private function testInvocation(invocation:Invocation, object:Object, method:Function, ...args):void
 		{
 			assertEquals(object, invocation.object);
 			assertEquals(method, invocation.method);
