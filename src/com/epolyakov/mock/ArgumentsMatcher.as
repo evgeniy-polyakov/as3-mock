@@ -9,6 +9,11 @@ package com.epolyakov.mock
 	{
 		private var _matchers:Vector.<IMatcher> = new <IMatcher>[];
 
+		internal function get length():int
+		{
+			return _matchers.length;
+		}
+
 		internal function get matchers():Vector.<IMatcher>
 		{
 			return _matchers;

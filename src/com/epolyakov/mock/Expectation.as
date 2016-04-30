@@ -11,10 +11,26 @@ package com.epolyakov.mock
 		private var _returns:* = undefined;
 		private var _throws:* = undefined;
 
+		internal function get object():Object
+		{
+			return _object;
+		}
+
+		internal function get method():Function
+		{
+			return _method;
+		}
+
+		internal function get argumentsMatcher():ArgumentsMatcher
+		{
+			return _argumentsMatcher;
+		}
+
 		internal function match(invocation:Invocation):Boolean
 		{
 			return _object == invocation.object &&
 					_method == invocation.method &&
+					_argumentsMatcher &&
 					_argumentsMatcher.match(invocation.arguments);
 		}
 
@@ -25,12 +41,6 @@ package com.epolyakov.mock
 				if ((_returns as Function).length == 0)
 				{
 					return (_returns as Function).call(invocation.object);
-				}
-				if ((_returns as Function).length != invocation.arguments.length)
-				{
-					throw new MockSetupError("Arguments mismatch: " +
-							"expected " + invocation.toString() +
-							"but got " + (_returns as Function).length);
 				}
 				return (_returns as Function).apply(invocation.object, invocation.arguments);
 			}
@@ -43,12 +53,6 @@ package com.epolyakov.mock
 				if ((_throws as Function).length == 0)
 				{
 					throw (_throws as Function).call(invocation.object);
-				}
-				if ((_throws as Function).length != invocation.arguments.length)
-				{
-					throw new MockSetupError("Arguments mismatch: " +
-							"expected (" + invocation.toString() + ")" +
-							"but got " + (_throws as Function).length + ".");
 				}
 				throw (_throws as Function).apply(invocation.object, invocation.arguments);
 			}
@@ -84,12 +88,32 @@ package com.epolyakov.mock
 
 		public function returns(value:*):void
 		{
+			if (value is Function &&
+					(value as Function).length > 0 &&
+					_argumentsMatcher &&
+					(value as Function).length != _argumentsMatcher.length)
+			{
+				throw new MockSetupError("Arguments mismatch: " +
+						"expected " + _argumentsMatcher.toString() +
+						"but got " + (value as Function).length);
+			}
+			_throws = undefined;
 			_returns = value;
 		}
 
 		public function throws(value:*):void
 		{
+			if (value is Function &&
+					(value as Function).length > 0 &&
+					_argumentsMatcher &&
+					(value as Function).length != _argumentsMatcher.length)
+			{
+				throw new MockSetupError("Arguments mismatch: " +
+						"expected " + _argumentsMatcher.toString() +
+						"but got " + (value as Function).length);
+			}
 			_throws = value;
+			_returns = undefined;
 		}
 	}
 }

@@ -19,6 +19,11 @@ package com.epolyakov.mock
 			return _invocations;
 		}
 
+		internal static function getExpectations():Vector.<Expectation>
+		{
+			return _expectations;
+		}
+
 		internal static function getCurrentInvocation():Invocation
 		{
 			return _currentInvocation;
@@ -41,11 +46,8 @@ package com.epolyakov.mock
 
 		public static function setup():ISetup
 		{
-			if (_isInVerifyMode)
-			{
-				throw new MockSetupError("Can not setup in verification mode.");
-			}
 			_isInSetupMode = true;
+			_isInVerifyMode = false;
 			var expectation:Expectation = new Expectation();
 			_expectations.unshift(expectation);
 			return expectation;
@@ -81,10 +83,7 @@ package com.epolyakov.mock
 
 		public static function verify():IVerify
 		{
-			if (_isInSetupMode)
-			{
-				throw new MockSetupError("Can not verify in setup mode.");
-			}
+			_isInSetupMode = false;
 			_isInVerifyMode = true;
 			return new Verification();
 		}

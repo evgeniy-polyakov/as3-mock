@@ -196,7 +196,7 @@ package com.epolyakov.mock
 			var mock:MockObject = new MockObject();
 			var obj:Object = {};
 
-			Mock.setup().that(Mock.invoke(mock, mock.testMethod, 1, "a", true, obj)).returns(function ()
+			Mock.setup().that(Mock.invoke(mock, mock.testMethod, 1, "a", true, obj)).returns(function ():int
 			{
 				return 10;
 			});
@@ -211,7 +211,7 @@ package com.epolyakov.mock
 			var mock:MockObject = new MockObject();
 			var obj:Object = {};
 
-			Mock.setup().that(Mock.invoke(mock, mock.testMethod, 1, "a", true, obj)).returns(function (i:int, s:String, b:Boolean, o:Object)
+			Mock.setup().that(Mock.invoke(mock, mock.testMethod, 1, "a", true, obj)).returns(function (i:int, s:String, b:Boolean, o:Object):String
 			{
 				return i + s + b + o;
 			});
@@ -226,7 +226,7 @@ package com.epolyakov.mock
 			var mock:MockObject = new MockObject();
 			var obj:Object = {};
 
-			Mock.setup().that(Mock.invoke(mock, mock.testMethodVarArgs, 1, "a", true, obj)).returns(function (i:int, s:String, b:Boolean, o:Object)
+			Mock.setup().that(Mock.invoke(mock, mock.testMethodVarArgs, 1, "a", true, obj)).returns(function (i:int, s:String, b:Boolean, o:Object):String
 			{
 				return i + s + b + o;
 			});
@@ -314,7 +314,7 @@ package com.epolyakov.mock
 			var obj:Object = {};
 			var err:Error = new IOError();
 
-			Mock.setup().that(Mock.invoke(mock, mock.testMethod, 1, "a", true, obj)).throws(function ()
+			Mock.setup().that(Mock.invoke(mock, mock.testMethod, 1, "a", true, obj)).throws(function ():Error
 			{
 				return err;
 			});
@@ -339,7 +339,7 @@ package com.epolyakov.mock
 			var obj:Object = {};
 			var err:Error = new IOError();
 
-			Mock.setup().that(Mock.invoke(mock, mock.testMethod, 1, "a", true, obj)).throws(function (i:int, s:String, b:Boolean, o:Object)
+			Mock.setup().that(Mock.invoke(mock, mock.testMethod, 1, "a", true, obj)).throws(function (i:int, s:String, b:Boolean, o:Object):Error
 			{
 				return new IOError(i + s + b + o);
 			});
@@ -365,7 +365,7 @@ package com.epolyakov.mock
 			var obj:Object = {};
 			var err:Error = new IOError();
 
-			Mock.setup().that(Mock.invoke(mock, mock.testMethodVarArgs, 1, "a", true, obj)).throws(function (i:int, s:String, b:Boolean, o:Object)
+			Mock.setup().that(Mock.invoke(mock, mock.testMethodVarArgs, 1, "a", true, obj)).throws(function (i:int, s:String, b:Boolean, o:Object):Error
 			{
 				return new IOError(i + s + b + o);
 			});
@@ -382,6 +382,69 @@ package com.epolyakov.mock
 			assertEquals(undefined, result);
 			assertTrue(error is IOError);
 			assertEquals((error as IOError).message, "1atrue[object Object]");
+		}
+
+		[Test(expects="com.epolyakov.mock.MockSetupError")]
+		public function setupThatReturns_ArgumentsMismatch_ShouldFail():void
+		{
+			var mock:MockObject = new MockObject();
+			var obj:Object = {};
+
+			Mock.setup().that(Mock.invoke(mock, mock.testMethodVarArgs, 1, "a", true, obj)).throws(function (i:int, s:String, b:Boolean):void
+			{
+			});
+		}
+
+		[Test(expects="com.epolyakov.mock.MockSetupError")]
+		public function setupThatThrows_ArgumentsMismatch_ShouldFail():void
+		{
+			var mock:MockObject = new MockObject();
+			var obj:Object = {};
+
+			Mock.setup().that(Mock.invoke(mock, mock.testMethodVarArgs, 1, "a", true, obj)).throws(function (i:int, s:String, b:Boolean):void
+			{
+			});
+		}
+
+		[Test]
+		public function setup_ShouldAddExpectationInReverseOrder():void
+		{
+			var expectation1:ISetup = Mock.setup();
+			var expectation2:ISetup = Mock.setup();
+			var expectation3:ISetup = Mock.setup();
+
+			assertEquals(3, Mock.getExpectations().length);
+			assertEquals(expectation3, Mock.getExpectations()[0]);
+			assertEquals(expectation2, Mock.getExpectations()[1]);
+			assertEquals(expectation1, Mock.getExpectations()[2]);
+		}
+
+		[Test]
+		public function setupThat_ArgumentValues_ShouldConfigureExpectation():void
+		{
+			var mock:MockObject = new MockObject();
+			var obj:Object = {};
+			var expectation:Expectation = Mock.setup() as Expectation;
+			expectation.that(Mock.invoke(mock, mock.testMethod, 1, "a", true, obj));
+
+			assertEquals(mock, expectation.object);
+			assertEquals(mock.testMethod, expectation.method);
+			assertEquals(4, expectation.argumentsMatcher.length);
+			assertEquals("It.isEqual(1),It.isEqual(a),It.isTrue(),It.isEqual([object Object])", expectation.argumentsMatcher.toString());
+		}
+
+		[Test]
+		public function setupThat_ArgumentMatchers_ShouldConfigureExpectation():void
+		{
+			var mock:MockObject = new MockObject();
+			var obj:Object = {};
+			var expectation:Expectation = Mock.setup() as Expectation;
+			expectation.that(Mock.invoke(mock, mock.testMethod, It.isEqual(1), It.isOfType(String), It.isTrue(), It.isNull()));
+
+			assertEquals(mock, expectation.object);
+			assertEquals(mock.testMethod, expectation.method);
+			assertEquals(4, expectation.argumentsMatcher.length);
+			assertEquals("It.isEqual(1),It.isOfType([class String]),It.isTrue(),It.isNull()", expectation.argumentsMatcher.toString());
 		}
 
 		private function testInvocation(invocation:Invocation, object:Object, method:Function, ...args)
