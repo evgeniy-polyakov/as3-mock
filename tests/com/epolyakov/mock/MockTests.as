@@ -466,8 +466,7 @@ package com.epolyakov.mock
 		{
 			var mock:MockObject = new MockObject();
 			var obj:Object = {};
-			var expectation:Expectation = Mock.setup() as Expectation;
-			expectation.that(Mock.invoke(mock, mock.testMethod, 0, It.isOfType(String), true, It.isEqual(obj)));
+			Mock.setup().that(Mock.invoke(mock, mock.testMethod, 0, It.isOfType(String), true, It.isEqual(obj)));
 		}
 
 		[Test(expects="com.epolyakov.mock.MockSetupError")]
@@ -475,8 +474,7 @@ package com.epolyakov.mock
 		{
 			var mock:MockObject = new MockObject();
 			var obj:Object = {};
-			var expectation:Expectation = Mock.setup() as Expectation;
-			expectation.that(Mock.invoke(mock, mock.testMethod, NaN, It.isOfType(String), true, It.isEqual(obj)));
+			Mock.setup().that(Mock.invoke(mock, mock.testMethod, NaN, It.isOfType(String), true, It.isEqual(obj)));
 		}
 
 		[Test(expects="com.epolyakov.mock.MockSetupError")]
@@ -484,8 +482,7 @@ package com.epolyakov.mock
 		{
 			var mock:MockObject = new MockObject();
 			var obj:Object = {};
-			var expectation:Expectation = Mock.setup() as Expectation;
-			expectation.that(Mock.invoke(mock, mock.testMethod, 1, It.isOfType(String), true, null));
+			Mock.setup().that(Mock.invoke(mock, mock.testMethod, 1, It.isOfType(String), true, null));
 		}
 
 		[Test(expects="com.epolyakov.mock.MockSetupError")]
@@ -493,8 +490,7 @@ package com.epolyakov.mock
 		{
 			var mock:MockObject = new MockObject();
 			var obj:Object = {};
-			var expectation:Expectation = Mock.setup() as Expectation;
-			expectation.that(Mock.invoke(mock, mock.testMethod, 1, It.isOfType(String), true, undefined));
+			Mock.setup().that(Mock.invoke(mock, mock.testMethod, 1, It.isOfType(String), true, undefined));
 		}
 
 		[Test(expects="com.epolyakov.mock.MockSetupError")]
@@ -502,8 +498,7 @@ package com.epolyakov.mock
 		{
 			var mock:MockObject = new MockObject();
 			var obj:Object = {};
-			var expectation:Expectation = Mock.setup() as Expectation;
-			expectation.that(Mock.invoke(mock, mock.testMethod, 1, It.isOfType(String), false, It.isEqual(obj)));
+			Mock.setup().that(Mock.invoke(mock, mock.testMethod, 1, It.isOfType(String), false, It.isEqual(obj)));
 		}
 
 		private function testInvocation(invocation:Invocation, object:Object, method:Function, ...args):void
