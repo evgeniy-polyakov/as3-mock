@@ -420,6 +420,18 @@ package com.epolyakov.mock
 		}
 
 		[Test]
+		public function setupThat_NoArguments_ShouldConfigureExpectation():void
+		{
+			var mock:MockObject = new MockObject();
+			var expectation:Expectation = Mock.setup() as Expectation;
+			expectation.that(Mock.invoke(mock, mock.testMethodNoArgs));
+
+			assertEquals(mock, expectation.object);
+			assertEquals(mock.testMethodNoArgs, expectation.method);
+			assertEquals(0, expectation.argumentsMatcher.length);
+		}
+
+		[Test]
 		public function setupThat_ArgumentValues_ShouldConfigureExpectation():void
 		{
 			var mock:MockObject = new MockObject();
@@ -499,6 +511,57 @@ package com.epolyakov.mock
 			var mock:MockObject = new MockObject();
 			var obj:Object = {};
 			Mock.setup().that(Mock.invoke(mock, mock.testMethod, 1, It.isOfType(String), false, It.isEqual(obj)));
+		}
+
+		[Test(expects="com.epolyakov.mock.MockSetupError")]
+		public function setupThat_NoInvocation_ShouldFail():void
+		{
+			Mock.setup().that(undefined);
+		}
+
+		[Test]
+		public function verify_ShouldCreateVerification():void
+		{
+			var verification:IVerify = Mock.verify();
+			assertTrue(verification is Verification);
+		}
+
+		[Test(expects="com.epolyakov.mock.MockVerifyError")]
+		public function verifyThat_Once_ShouldFailIfNoInvocations():void
+		{
+			var mock:MockObject = new MockObject();
+			Mock.verify().that(Mock.invoke(mock, mock.testMethod, 1, "a", true, null), Times.once);
+		}
+
+		[Test(expects="com.epolyakov.mock.MockVerifyError")]
+		public function verifyThat_Never_ShouldFailIfoOneInvocation():void
+		{
+			var mock:MockObject = new MockObject();
+			Mock.invoke(mock, mock.testMethod, 1, "a", true, null);
+			Mock.verify().that(Mock.invoke(mock, mock.testMethod, 1, "a", true, null), Times.never);
+		}
+
+		[Test(expects="com.epolyakov.mock.MockVerifyError")]
+		public function verifyThat_Twice_ShouldFailIfOneInvocation():void
+		{
+			var mock:MockObject = new MockObject();
+			Mock.invoke(mock, mock.testMethod, 1, "a", true, null);
+			Mock.verify().that(Mock.invoke(mock, mock.testMethod, 1, "a", true, null), Times.twice);
+		}
+
+		[Test(expects="com.epolyakov.mock.MockVerifyError")]
+		public function verifyThat_Thrice_ShouldFailIfTwoInvocations():void
+		{
+			var mock:MockObject = new MockObject();
+			Mock.invoke(mock, mock.testMethod, 1, "a", true, null);
+			Mock.invoke(mock, mock.testMethod, 1, "a", true, null);
+			Mock.verify().that(Mock.invoke(mock, mock.testMethod, 1, "a", true, null), Times.thrice);
+		}
+
+		[Test(expects="com.epolyakov.mock.MockSetupError")]
+		public function verifyThat_NoInvocation_ShouldFail():void
+		{
+			Mock.verify().that(undefined);
 		}
 
 		private function testInvocation(invocation:Invocation, object:Object, method:Function, ...args):void
