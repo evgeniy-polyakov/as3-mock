@@ -70,13 +70,13 @@ package com.epolyakov.mock
 			{
 				return times(_min);
 			}
-			if (_min == 0)
-			{
-				return "at most " + times(_max);
-			}
 			if (_max == int.MAX_VALUE)
 			{
 				return "at least " + times(_min);
+			}
+			if (_min == 0)
+			{
+				return "at most " + times(_max);
 			}
 			return "from " + _min + " to " + _max + " times";
 		}
