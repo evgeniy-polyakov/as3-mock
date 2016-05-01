@@ -5,7 +5,7 @@ package com.epolyakov.mock
 	 */
 	public class Version
 	{
-		public static const number:String = "1.0.0";
-		public static const date:String = "2016-03-24";
+		public static const number:String = "1.1.0";
+		public static const date:String = "2016-05-01";
 	}
 }
