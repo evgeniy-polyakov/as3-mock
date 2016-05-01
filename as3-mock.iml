@@ -4,11 +4,6 @@
     <configurations>
       <configuration name="as3-mock" pure-as="true" output-type="Library" output-file="as3-mock.swc" output-folder="$MODULE_DIR$/bin">
         <dependencies target-player="10.2">
-          <entries>
-            <entry library-id="629377c5-8818-4109-b0b1-cce5e2d38eb4">
-              <dependency linkage="Merged" />
-            </entry>
-          </entries>
           <sdk name="flex_sdk_4.5" />
         </dependencies>
         <compiler-options />
@@ -42,15 +37,5 @@
     <orderEntry type="jdk" jdkName="flex_sdk_4.5" jdkType="Flex SDK Type (new)" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="flexunit" level="application" />
-    <orderEntry type="module-library" exported="">
-      <library type="flex">
-        <properties id="629377c5-8818-4109-b0b1-cce5e2d38eb4" />
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/bin/as3-mock.swc!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
   </component>
 </module>
