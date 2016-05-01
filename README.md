@@ -70,9 +70,11 @@ When setup or verify the mocked method there is an option to use argument matche
 - `It.isEqual(value:*, ...values)` - the argument is equal (==) to _any_ of the given values
 - `It.isStrictEqual(value:*, ...values)` - the argument is stritly equal (===) to _any_ of the given values
 - `It.isOfType(type:*, ...types)` - the argument extends or implements _all_ of the given classes or interfaces
+- `It.isLike(value:*)` - the argument is checked by `for each` loop recursivelly, it's usefull for arrays, vectors and dynamic objects
 - `It.notEqual(value:*, ...values)` - the argument is not equal (==) to _any_ of the given values
 - `It.notStrictEqual(value:*, ...values)` - the argument is not strictly equal (===) to _any_ of the given values
 - `It.notOfType(type:*, ...types)` - the argument does not extend or implement _any_ of the given classes or interfaces
+- `It.notLike(value:*)` - the argument is checked by `for each` loop recursivelly, it's usefull for arrays, vectors and dynamic objects
 - `It.isNull()` - the arguemnt is null or undefined, same as `It.isEqual(null)`
 - `It.notNull()` - the argument is not null or undefined, same as `It.notEqual(null)`
 - `It.isTrue()` - the argument is true, same as `It.isEqual(true)`
@@ -142,4 +144,4 @@ Mock.verify().that(myMock.someMethod(false, "test"))
     .verify().that(otherMock.otherMethodCalledAfter());
 ```
 
-> Note that verification is greedy: it starts to search the second method only after the last invocation of the first method with the given arguments.
+> Note that verification is greedy: it starts to search the second method only after the last invocation of the first method with the given arguments. However verifications with `Times.never` are not greedy, you can continue your sequence after that.
