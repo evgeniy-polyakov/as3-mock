@@ -120,7 +120,7 @@ At verification step you can specify how many times you expect the method to be 
 - `Times.exactly(n)` - the method is called exactly `n` times
 - `Times.atLeast(n)` - the method is called `n` times or more
 - `Times.atMost(n)` - the method is called `n` times or less
-- `Times.between(n,m)` - the method is called between `n` and `m` times inclusive
+- `Times.between(n, m)` - the method is called between `n` and `m` times inclusive
 - `n` - exact number of invocations, same as `Times.exactly(n)`
 - `0` - the method is never called, same as `Times.never`
 
