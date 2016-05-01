@@ -686,6 +686,155 @@ package com.epolyakov.mock
 			Mock.verify().that(undefined);
 		}
 
+		[Test]
+		public function verifyTotal_Number_ShouldVerify():void
+		{
+			var mock:MockObject = new MockObject();
+			var obj:Object = {};
+
+			Mock.invoke(mock, mock.testMethod, 1, "a", true, obj);
+			Mock.invoke(mock, mock.testMethod, 1, "a", true, obj);
+			Mock.invoke(mock, mock.testMethod, 1, "a", true, obj);
+
+			Mock.verify().total(3);
+		}
+
+		[Test(expects="com.epolyakov.mock.MockVerifyError")]
+		public function verifyTotal_Number_ShouldFail1():void
+		{
+			var mock:MockObject = new MockObject();
+			var obj:Object = {};
+
+			Mock.invoke(mock, mock.testMethod, 1, "a", true, obj);
+			Mock.invoke(mock, mock.testMethod, 1, "a", true, obj);
+			Mock.invoke(mock, mock.testMethod, 1, "a", true, obj);
+
+			Mock.verify().total(2);
+		}
+
+		[Test(expects="com.epolyakov.mock.MockVerifyError")]
+		public function verifyTotal_Number_ShouldFail2():void
+		{
+			var mock:MockObject = new MockObject();
+			var obj:Object = {};
+
+			Mock.invoke(mock, mock.testMethod, 1, "a", true, obj);
+			Mock.invoke(mock, mock.testMethod, 1, "a", true, obj);
+			Mock.invoke(mock, mock.testMethod, 1, "a", true, obj);
+
+			Mock.verify().total(4);
+		}
+
+		[Test]
+		public function verifyTotal_Times_ShouldVerify():void
+		{
+			var mock:MockObject = new MockObject();
+			var obj:Object = {};
+
+			Mock.invoke(mock, mock.testMethod, 1, "a", true, obj);
+			Mock.invoke(mock, mock.testMethod, 1, "a", true, obj);
+			Mock.invoke(mock, mock.testMethod, 1, "a", true, obj);
+
+			Mock.verify().total(Times.thrice);
+		}
+
+		[Test(expects="com.epolyakov.mock.MockVerifyError")]
+		public function verifyTotal_Times_ShouldFail1():void
+		{
+			var mock:MockObject = new MockObject();
+			var obj:Object = {};
+
+			Mock.invoke(mock, mock.testMethod, 1, "a", true, obj);
+			Mock.invoke(mock, mock.testMethod, 1, "a", true, obj);
+			Mock.invoke(mock, mock.testMethod, 1, "a", true, obj);
+
+			Mock.verify().total(Times.twice);
+		}
+
+		[Test(expects="com.epolyakov.mock.MockVerifyError")]
+		public function verifyTotal_Times_ShouldFail2():void
+		{
+			var mock:MockObject = new MockObject();
+			var obj:Object = {};
+
+			Mock.invoke(mock, mock.testMethod, 1, "a", true, obj);
+			Mock.invoke(mock, mock.testMethod, 1, "a", true, obj);
+			Mock.invoke(mock, mock.testMethod, 1, "a", true, obj);
+
+			Mock.verify().total(Times.exactly(4));
+		}
+
+		[Test]
+		public function verifyThatVerifyTotal_ShouldVerify():void
+		{
+			var mock:MockObject = new MockObject();
+			var obj:Object = {};
+
+			Mock.invoke(mock, mock.testMethod, 1, "a", true, obj);
+			Mock.invoke(mock, mock.testMethod, 1, "a", true, obj);
+			Mock.invoke(mock, mock.testMethod, 1, "a", true, obj);
+
+			Mock.verify()
+					.that(Mock.invoke(mock, mock.testMethod, 1, "a", true, obj), 3)
+					.verify()
+					.total(3);
+		}
+
+		[Test(expects="com.epolyakov.mock.MockVerifyError")]
+		public function verifyThatVerifyTotal_ShouldFail1():void
+		{
+			var mock:MockObject = new MockObject();
+			var obj:Object = {};
+
+			Mock.invoke(mock, mock.testMethod, 1, "a", true, obj);
+			Mock.invoke(mock, mock.testMethod, 1, "a", true, obj);
+			Mock.invoke(mock, mock.testMethod, 1, "a", true, obj);
+
+			Mock.verify()
+					.that(Mock.invoke(mock, mock.testMethod, 1, "a", true, obj), Times.atLeast(3))
+					.verify()
+					.total(2);
+		}
+
+		[Test(expects="com.epolyakov.mock.MockVerifyError")]
+		public function verifyThatVerifyTotal_ShouldFail2():void
+		{
+			var mock:MockObject = new MockObject();
+			var obj:Object = {};
+
+			Mock.invoke(mock, mock.testMethod, 1, "a", true, obj);
+			Mock.invoke(mock, mock.testMethod, 1, "a", true, obj);
+			Mock.invoke(mock, mock.testMethod, 1, "a", true, obj);
+
+			Mock.verify()
+					.that(Mock.invoke(mock, mock.testMethod, 1, "a", true, obj), Times.atLeast(3))
+					.verify()
+					.total(4);
+		}
+
+		[Test]
+		public function setupThatVerifyThat_RightInvocation_ShouldWorkTogether():void
+		{
+			var mock:MockObject = new MockObject();
+			var obj:Object = {};
+
+			Mock.setup().that(Mock.invoke(mock, mock.testMethod, 1, "a", true, obj)).returns(1);
+			var result:* = Mock.invoke(mock, mock.testMethod, 1, "a", true, obj);
+			Mock.verify().that(Mock.invoke(mock, mock.testMethod, 1, "a", true, obj));
+			assertEquals(1, result);
+		}
+
+		[Test(expects="com.epolyakov.mock.MockVerifyError")]
+		public function setupThatVerifyThat_WrongInvocation_ShouldWorkTogether():void
+		{
+			var mock:MockObject = new MockObject();
+			var obj:Object = {};
+
+			Mock.setup().that(Mock.invoke(mock, mock.testMethod, 1, "a", true, obj)).returns(1);
+			Mock.invoke(mock, mock.testMethod, 1, "a", false, obj);
+			Mock.verify().that(Mock.invoke(mock, mock.testMethod, 1, "a", true, obj));
+		}
+
 		private function testInvocation(invocation:Invocation, object:Object, method:Function, ...args):void
 		{
 			assertEquals(object, invocation.object);
