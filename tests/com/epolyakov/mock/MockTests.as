@@ -590,6 +590,96 @@ package com.epolyakov.mock
 			Mock.verify().that(Mock.invoke(mock, mock.testMethod, 1, "a", true, null), 3);
 		}
 
+		[Test]
+		public function verifyThat_ArgumentValues_ShouldMatch():void
+		{
+			var mock:MockObject = new MockObject();
+			Mock.invoke(mock, mock.testMethod, 1, "a", true, null);
+			Mock.verify().that(Mock.invoke(mock, mock.testMethod, 1, "a", true, null));
+		}
+
+		[Test(expects="com.epolyakov.mock.MockVerifyError")]
+		public function verifyThat_ArgumentValues_ShouldFail():void
+		{
+			var mock:MockObject = new MockObject();
+			Mock.invoke(mock, mock.testMethod, 1, "a", true, {});
+			Mock.verify().that(Mock.invoke(mock, mock.testMethod, 1, "a", true, null));
+		}
+
+		[Test]
+		public function verifyThat_ArgumentMatchers_ShouldMatch():void
+		{
+			var mock:MockObject = new MockObject();
+			Mock.invoke(mock, mock.testMethod, 1, "a", true, null);
+			Mock.verify().that(Mock.invoke(mock, mock.testMethod, It.isEqual(1), It.isOfType(String), It.isTrue(), It.isNull()));
+		}
+
+		[Test(expects="com.epolyakov.mock.MockVerifyError")]
+		public function verifyThat_ArgumentMatchers_ShouldFail():void
+		{
+			var mock:MockObject = new MockObject();
+			Mock.invoke(mock, mock.testMethod, 1, "a", true, {});
+			Mock.verify().that(Mock.invoke(mock, mock.testMethod, It.isEqual(1), It.isOfType(String), It.isTrue(), It.isNull()));
+		}
+
+		[Test]
+		public function setupThat_ArgumentValuesAndMatchers_ShouldMatch():void
+		{
+			var mock:MockObject = new MockObject();
+			var obj:Object = {};
+			Mock.invoke(mock, mock.testMethod, 1, "a", true, obj);
+			Mock.verify().that(Mock.invoke(mock, mock.testMethod, 1, It.isOfType(String), true, It.isEqual(obj)));
+		}
+
+		[Test(expects="com.epolyakov.mock.MockVerifyError")]
+		public function setupThat_ArgumentValuesAndMatchers_ShouldFail():void
+		{
+			var mock:MockObject = new MockObject();
+			var obj:Object = {};
+			Mock.invoke(mock, mock.testMethod, 1, "a", false, obj);
+			Mock.verify().that(Mock.invoke(mock, mock.testMethod, 1, It.isOfType(String), true, It.isEqual(obj)));
+		}
+
+		[Test(expects="com.epolyakov.mock.MockSetupError")]
+		public function verifyThat_ArgumentDefaultNumberAndMatchers_ShouldFail():void
+		{
+			var mock:MockObject = new MockObject();
+			var obj:Object = {};
+			Mock.verify().that(Mock.invoke(mock, mock.testMethod, 0, It.isOfType(String), true, It.isEqual(obj)));
+		}
+
+		[Test(expects="com.epolyakov.mock.MockSetupError")]
+		public function verifyThat_ArgumentNaNAndMatchers_ShouldFail():void
+		{
+			var mock:MockObject = new MockObject();
+			var obj:Object = {};
+			Mock.verify().that(Mock.invoke(mock, mock.testMethod, NaN, It.isOfType(String), true, It.isEqual(obj)));
+		}
+
+		[Test(expects="com.epolyakov.mock.MockSetupError")]
+		public function verifyThat_ArgumentNullAndMatchers_ShouldFail():void
+		{
+			var mock:MockObject = new MockObject();
+			var obj:Object = {};
+			Mock.verify().that(Mock.invoke(mock, mock.testMethod, 1, It.isOfType(String), true, null));
+		}
+
+		[Test(expects="com.epolyakov.mock.MockSetupError")]
+		public function verifyThat_ArgumentUndefinedAndMatchers_ShouldFail():void
+		{
+			var mock:MockObject = new MockObject();
+			var obj:Object = {};
+			Mock.verify().that(Mock.invoke(mock, mock.testMethod, 1, It.isOfType(String), true, undefined));
+		}
+
+		[Test(expects="com.epolyakov.mock.MockSetupError")]
+		public function verifyThat_ArgumentFalseAndMatchers_ShouldFail():void
+		{
+			var mock:MockObject = new MockObject();
+			var obj:Object = {};
+			Mock.verify().that(Mock.invoke(mock, mock.testMethod, 1, It.isOfType(String), false, It.isEqual(obj)));
+		}
+
 		[Test(expects="com.epolyakov.mock.MockSetupError")]
 		public function verifyThat_NoInvocation_ShouldFail():void
 		{
