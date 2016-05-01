@@ -843,6 +843,55 @@ package com.epolyakov.mock
 		}
 
 		[Test]
+		public function verifyThat_NotSequential_ShouldVerify():void
+		{
+			var mock:MockObject = new MockObject();
+			var obj:Object = {};
+
+			Mock.invoke(mock, mock.testMethod, 1, "a", true, obj);
+			Mock.invoke(mock, mock.testMethod, 2, "a", true, obj);
+			Mock.invoke(mock, mock.testMethod, 3, "a", true, obj);
+
+			Mock.verify().that(Mock.invoke(mock, mock.testMethod, 1, "a", true, obj));
+			Mock.verify().that(Mock.invoke(mock, mock.testMethod, 3, "a", true, obj));
+			Mock.verify().that(Mock.invoke(mock, mock.testMethod, 2, "a", true, obj));
+		}
+
+		[Test]
+		public function verifyThat_SequentialAndNotSequential_ShouldVerify():void
+		{
+			var mock:MockObject = new MockObject();
+			var obj:Object = {};
+
+			Mock.invoke(mock, mock.testMethod, 1, "a", true, obj);
+			Mock.invoke(mock, mock.testMethod, 2, "a", true, obj);
+			Mock.invoke(mock, mock.testMethod, 3, "a", true, obj);
+
+			Mock.verify().that(Mock.invoke(mock, mock.testMethod, 3, "a", true, obj));
+			Mock.verify().that(Mock.invoke(mock, mock.testMethod, 2, "a", true, obj));
+			Mock.verify().that(Mock.invoke(mock, mock.testMethod, 1, "a", true, obj))
+					.verify().that(Mock.invoke(mock, mock.testMethod, 2, "a", true, obj))
+					.verify().that(Mock.invoke(mock, mock.testMethod, 3, "a", true, obj));
+		}
+
+		[Test(expects="com.epolyakov.mock.MockVerifyError")]
+		public function verifyThat_SequentialAndNotSequential_ShouldFail():void
+		{
+			var mock:MockObject = new MockObject();
+			var obj:Object = {};
+
+			Mock.invoke(mock, mock.testMethod, 1, "a", true, obj);
+			Mock.invoke(mock, mock.testMethod, 2, "a", true, obj);
+			Mock.invoke(mock, mock.testMethod, 3, "a", true, obj);
+
+			Mock.verify().that(Mock.invoke(mock, mock.testMethod, 3, "a", true, obj));
+			Mock.verify().that(Mock.invoke(mock, mock.testMethod, 2, "a", true, obj));
+			Mock.verify().that(Mock.invoke(mock, mock.testMethod, 1, "a", true, obj))
+					.verify().that(Mock.invoke(mock, mock.testMethod, 3, "a", true, obj))
+					.verify().that(Mock.invoke(mock, mock.testMethod, 2, "a", true, obj));
+		}
+
+		[Test]
 		public function verifyThat_SequentialSkip_ShouldVerify():void
 		{
 			var mock:MockObject = new MockObject();
