@@ -813,6 +813,92 @@ package com.epolyakov.mock
 		}
 
 		[Test]
+		public function verifyThat_Sequential_ShouldVerify():void
+		{
+			var mock:MockObject = new MockObject();
+			var obj:Object = {};
+
+			Mock.invoke(mock, mock.testMethod, 1, "a", true, obj);
+			Mock.invoke(mock, mock.testMethod, 2, "a", true, obj);
+			Mock.invoke(mock, mock.testMethod, 3, "a", true, obj);
+
+			Mock.verify().that(Mock.invoke(mock, mock.testMethod, 1, "a", true, obj))
+					.verify().that(Mock.invoke(mock, mock.testMethod, 2, "a", true, obj))
+					.verify().that(Mock.invoke(mock, mock.testMethod, 3, "a", true, obj));
+		}
+
+		[Test(expects="com.epolyakov.mock.MockVerifyError")]
+		public function verifyThat_Sequential_ShouldFail():void
+		{
+			var mock:MockObject = new MockObject();
+			var obj:Object = {};
+
+			Mock.invoke(mock, mock.testMethod, 1, "a", true, obj);
+			Mock.invoke(mock, mock.testMethod, 2, "a", true, obj);
+			Mock.invoke(mock, mock.testMethod, 3, "a", true, obj);
+
+			Mock.verify().that(Mock.invoke(mock, mock.testMethod, 1, "a", true, obj))
+					.verify().that(Mock.invoke(mock, mock.testMethod, 3, "a", true, obj))
+					.verify().that(Mock.invoke(mock, mock.testMethod, 2, "a", true, obj));
+		}
+
+		[Test]
+		public function verifyThat_SequentialSkip_ShouldVerify():void
+		{
+			var mock:MockObject = new MockObject();
+			var obj:Object = {};
+
+			Mock.invoke(mock, mock.testMethod, 1, "a", true, obj);
+			Mock.invoke(mock, mock.testMethod, 2, "a", true, obj);
+			Mock.invoke(mock, mock.testMethod, 3, "a", true, obj);
+
+			Mock.verify().that(Mock.invoke(mock, mock.testMethod, 1, "a", true, obj))
+					.verify().that(Mock.invoke(mock, mock.testMethod, 3, "a", true, obj));
+		}
+
+		[Test(expects="com.epolyakov.mock.MockVerifyError")]
+		public function verifyThat_SequentialSkip_ShouldFail():void
+		{
+			var mock:MockObject = new MockObject();
+			var obj:Object = {};
+
+			Mock.invoke(mock, mock.testMethod, 1, "a", true, obj);
+			Mock.invoke(mock, mock.testMethod, 2, "a", true, obj);
+			Mock.invoke(mock, mock.testMethod, 3, "a", true, obj);
+
+			Mock.verify().that(Mock.invoke(mock, mock.testMethod, 3, "a", true, obj))
+					.verify().that(Mock.invoke(mock, mock.testMethod, 1, "a", true, obj));
+		}
+
+		[Test]
+		public function verifyThat_SequentialGreedy_ShouldVerify():void
+		{
+			var mock:MockObject = new MockObject();
+			var obj:Object = {};
+
+			Mock.invoke(mock, mock.testMethod, 1, "a", true, obj);
+			Mock.invoke(mock, mock.testMethod, 2, "a", true, obj);
+			Mock.invoke(mock, mock.testMethod, 3, "a", true, obj);
+
+			Mock.verify().that(Mock.invoke(mock, mock.testMethod, It.isEqual(1, 2), "a", true, obj), Times.twice)
+					.verify().that(Mock.invoke(mock, mock.testMethod, 3, "a", true, obj));
+		}
+
+		[Test(expects="com.epolyakov.mock.MockVerifyError")]
+		public function verifyThat_SequentialGreedy_ShouldFail():void
+		{
+			var mock:MockObject = new MockObject();
+			var obj:Object = {};
+
+			Mock.invoke(mock, mock.testMethod, 1, "a", true, obj);
+			Mock.invoke(mock, mock.testMethod, 2, "a", true, obj);
+			Mock.invoke(mock, mock.testMethod, 3, "a", true, obj);
+
+			Mock.verify().that(Mock.invoke(mock, mock.testMethod, It.isEqual(1, 2, 3), "a", true, obj), Times.thrice)
+					.verify().that(Mock.invoke(mock, mock.testMethod, 3, "a", true, obj));
+		}
+
+		[Test]
 		public function setupThatVerifyThat_RightInvocation_ShouldWorkTogether():void
 		{
 			var mock:MockObject = new MockObject();
