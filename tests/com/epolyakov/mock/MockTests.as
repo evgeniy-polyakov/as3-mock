@@ -899,6 +899,55 @@ package com.epolyakov.mock
 		}
 
 		[Test]
+		public function verifyThat_SequentialNever_ShouldVerify():void
+		{
+			var mock:MockObject = new MockObject();
+			var obj:Object = {};
+
+			Mock.invoke(mock, mock.testMethod, 1, "a", true, obj);
+			Mock.invoke(mock, mock.testMethod, 2, "a", true, obj);
+			Mock.invoke(mock, mock.testMethod, 3, "a", true, obj);
+
+			Mock.verify().that(Mock.invoke(mock, mock.testMethod, 1, "a", true, obj))
+					.verify().that(Mock.invoke(mock, mock.testMethod, 1, "a", false, obj), Times.never)
+					.verify().that(Mock.invoke(mock, mock.testMethod, 2, "a", false, obj), Times.never)
+					.verify().that(Mock.invoke(mock, mock.testMethod, 2, "a", true, obj))
+					.verify().that(Mock.invoke(mock, mock.testMethod, 2, "a", true, null), Times.never)
+					.verify().that(Mock.invoke(mock, mock.testMethod, 3, "a", true, null), Times.never)
+					.verify().that(Mock.invoke(mock, mock.testMethod, 3, "a", true, obj));
+		}
+
+		[Test(expects="com.epolyakov.mock.MockVerifyError")]
+		public function verifyThat_SequentialNever_ShouldFail1():void
+		{
+			var mock:MockObject = new MockObject();
+			var obj:Object = {};
+
+			Mock.invoke(mock, mock.testMethod, 1, "a", true, obj);
+			Mock.invoke(mock, mock.testMethod, 2, "a", true, obj);
+			Mock.invoke(mock, mock.testMethod, 3, "a", true, obj);
+
+			Mock.verify().that(Mock.invoke(mock, mock.testMethod, 1, "a", true, obj))
+					.verify().that(Mock.invoke(mock, mock.testMethod, 2, "a", true, obj), Times.never)
+					.verify().that(Mock.invoke(mock, mock.testMethod, 3, "a", true, obj));
+		}
+
+		[Test(expects="com.epolyakov.mock.MockVerifyError")]
+		public function verifyThat_SequentialNever_ShouldFail2():void
+		{
+			var mock:MockObject = new MockObject();
+			var obj:Object = {};
+
+			Mock.invoke(mock, mock.testMethod, 1, "a", true, obj);
+			Mock.invoke(mock, mock.testMethod, 2, "a", true, obj);
+			Mock.invoke(mock, mock.testMethod, 3, "a", true, obj);
+
+			Mock.verify().that(Mock.invoke(mock, mock.testMethod, 1, "a", true, obj))
+					.verify().that(Mock.invoke(mock, mock.testMethod, 3, "a", true, obj), Times.never)
+					.verify().that(Mock.invoke(mock, mock.testMethod, 2, "a", true, obj));
+		}
+
+		[Test]
 		public function setupThatVerifyThat_RightInvocation_ShouldWorkTogether():void
 		{
 			var mock:MockObject = new MockObject();
