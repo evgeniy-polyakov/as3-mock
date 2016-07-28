@@ -78,7 +78,7 @@ package com.epolyakov.mock
 				}
 				else
 				{
-					throw new MockSetupError("Incorrect use of Mock." + (isGetter ? "get" : "set") + ":\n" + stackTrace);
+					throw new MockSetupError("Mock." + (isGetter ? "get" : "set") + " should be called in a " + (isGetter ? "getter" : "setter") + ".");
 				}
 			}
 			return null;
