@@ -100,7 +100,7 @@ package com.epolyakov.mock
 				getter["mockMethodName"] = name.localName;
 				_getters[name.toString()] = getter;
 			}
-			invoke(object, getter);
+			return invoke(object, getter);
 		}
 
 		public static function set(object:Object, value:*):void
