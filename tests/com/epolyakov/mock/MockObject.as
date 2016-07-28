@@ -16,5 +16,25 @@ package com.epolyakov.mock
 		public function testMethodVarArgs(...args):void
 		{
 		}
+
+		public function get property():int
+		{
+			return Mock.get(this);
+		}
+
+		public function set property(value:int):void
+		{
+			Mock.set(this, value);
+		}
+
+		public function get property1():int
+		{
+			return Mock.get(this);
+		}
+
+		public function set property1(value:int):void
+		{
+			Mock.set(this, value);
+		}
 	}
 }

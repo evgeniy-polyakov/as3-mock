@@ -1019,6 +1019,90 @@ package com.epolyakov.mock
 			Mock.verify().that(Mock.invoke(mock, mock.testMethod, 1, "a", true, obj));
 		}
 
+		[Test]
+		public function getVerify_ShouldNotThrow():void
+		{
+			var mock:MockObject = new MockObject();
+			mock.property;
+			Mock.verify().that(mock.property);
+		}
+
+		[Test(expects="com.epolyakov.mock.MockVerifyError")]
+		public function getVerify_WrongNumberOfInvocations_ShouldThrow():void
+		{
+			var mock:MockObject = new MockObject();
+			mock.property;
+			Mock.verify().that(mock.property, 2);
+		}
+
+		[Test]
+		public function getSetup_ShouldReturnCorrectValue():void
+		{
+			var mock:MockObject = new MockObject();
+			Mock.setup().that(mock.property).returns(10);
+			assertEquals(10, mock.property);
+		}
+
+		[Test]
+		public function getSetup_ShouldNotThrowError():void
+		{
+			var mock:MockObject = new MockObject();
+			Mock.setup().that(mock.property).throws(new IOError());
+		}
+
+		[Test(expects="flash.errors.IOError")]
+		public function getSetup_ShouldThrowError():void
+		{
+			var mock:MockObject = new MockObject();
+			Mock.setup().that(mock.property).throws(new IOError());
+			mock.property;
+		}
+
+		[Test]
+		public function setVerify_ShouldNotThrow():void
+		{
+			var mock:MockObject = new MockObject();
+			mock.property = 10;
+			Mock.verify().that(mock.property = 10);
+		}
+
+		[Test(expects="com.epolyakov.mock.MockVerifyError")]
+		public function setVerify_WrongNumberOfInvocations_ShouldThrow():void
+		{
+			var mock:MockObject = new MockObject();
+			mock.property = 10;
+			Mock.verify().that(mock.property = 10, 2);
+		}
+
+		[Test]
+		public function setSetup_ShouldCallFunction():void
+		{
+			var mock:MockObject = new MockObject();
+			var value:int = 0;
+			Mock.setup().that(mock.property = 10).returns(function (v:int):void
+			{
+				value = v;
+			});
+			mock.property = 10;
+			assertEquals(10, value);
+		}
+
+		[Test]
+		public function setSetup_ShouldNotThrowError():void
+		{
+			var mock:MockObject = new MockObject();
+			Mock.setup().that(mock.property = 10).throws(new IOError());
+			mock.property = 1;
+		}
+
+		[Test(expects="flash.errors.IOError")]
+		public function setSetup_ShouldThrowError():void
+		{
+			var mock:MockObject = new MockObject();
+			Mock.setup().that(mock.property = 10).throws(new IOError());
+			mock.property = 10;
+		}
+
 		private function testInvocation(invocation:Invocation, object:Object, method:Function, ...args):void
 		{
 			assertEquals(object, invocation.object);
