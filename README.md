@@ -145,3 +145,30 @@ Mock.verify().that(myMock.someMethod(false, "test"))
 ```
 
 > Note that verification is greedy: it starts to search the second method only after the last invocation of the first method with the given arguments. However verifications with `Times.never` are not greedy, you can continue your sequence after that.
+
+### Getters and setters
+The library supports mocking of getters and setters when the mock object is defined like the following:
+```actionscript
+public class MyMock extends SomeClass {
+  override public function get someProperty():int {
+    return Mock.get(this);
+  }
+  override public function set someProperty(value:int):void {
+    return Mock.set(this);
+  }
+}
+```
+> Note that Mock object does not need the property name, it gets the name from stack trace. This feature is avaialble only in flash player 11.5 or higher.
+
+In the test method getters and setters are used like regular methods:
+```actionscript
+[Test]
+public function test():void {
+  var myMock:MyMock = new MyMock();
+  Mock.setup().that(myMock.someProperty).returns(1);
+  myMock.someProperty; // call of the getter returns 1
+  myMock.someProperty = 2; // call of the setter
+  Mock.verify().that(myMock.someProperty); // verifying that the getter was called
+  Mock.verify().that(myMock.someProperty = 2); // verifying that the setter was called with value 2
+  ...
+```
