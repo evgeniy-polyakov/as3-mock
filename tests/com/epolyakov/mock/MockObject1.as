@@ -3,7 +3,7 @@ package com.epolyakov.mock
 	/**
 	 * @author Evgeniy Polyakov
 	 */
-	public class MockObject
+	public class MockObject1
 	{
 		public function testMethod(arg1:int, arg2:String, arg3:Boolean, arg4:Object):void
 		{

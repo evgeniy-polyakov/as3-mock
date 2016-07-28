@@ -93,9 +93,9 @@ package com.epolyakov.mock
 					_argumentsMatcher &&
 					(value as Function).length != _argumentsMatcher.length)
 			{
-				throw new MockSetupError("Arguments mismatch: " +
-						"expected " + _argumentsMatcher.toString() +
-						"but got " + (value as Function).length);
+				throw new MockSetupError("Arguments mismatch:" +
+						" expected " + (_argumentsMatcher.toString() || "none") +
+						" but got " + (value as Function).length);
 			}
 			_throws = undefined;
 			_returns = value;
@@ -108,9 +108,9 @@ package com.epolyakov.mock
 					_argumentsMatcher &&
 					(value as Function).length != _argumentsMatcher.length)
 			{
-				throw new MockSetupError("Arguments mismatch: " +
-						"expected " + _argumentsMatcher.toString() +
-						"but got " + (value as Function).length);
+				throw new MockSetupError("Arguments mismatch:" +
+						" expected " + (_argumentsMatcher.toString() || "none") +
+						" but got " + (value as Function).length);
 			}
 			_throws = value;
 			_returns = undefined;

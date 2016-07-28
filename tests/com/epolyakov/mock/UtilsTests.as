@@ -41,6 +41,13 @@ package com.epolyakov.mock
 			assertEquals("MethodClosure", Utils.functionToMethodName(trace, null));
 			assertEquals("Function", Utils.functionToMethodName(function ():void {}, null));
 			assertEquals("", Utils.functionToMethodName(null, null));
+
+			var f:Function = function ():void
+			{
+			};
+			f["mockMethodName"] = "testMethod";
+			assertEquals("testMethod", Utils.functionToMethodName(f, s));
+			assertEquals("testMethod", Utils.functionToMethodName(f, null));
 		}
 
 		[Test]

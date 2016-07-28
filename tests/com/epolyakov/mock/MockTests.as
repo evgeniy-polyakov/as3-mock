@@ -1019,6 +1019,202 @@ package com.epolyakov.mock
 			Mock.verify().that(Mock.invoke(mock, mock.testMethod, 1, "a", true, obj));
 		}
 
+		[Test]
+		public function getVerify_ShouldNotThrow():void
+		{
+			var mock:MockObject = new MockObject();
+			mock.property;
+			Mock.verify().that(mock.property);
+		}
+
+		[Test(expects="com.epolyakov.mock.MockVerifyError")]
+		public function getVerify_WrongNumberOfInvocations_ShouldThrow():void
+		{
+			var mock:MockObject = new MockObject();
+			mock.property;
+			Mock.verify().that(mock.property, 2);
+		}
+
+		[Test]
+		public function getSetup_ShouldReturnCorrectValue():void
+		{
+			var mock:MockObject = new MockObject();
+			Mock.setup().that(mock.property).returns(10);
+			assertEquals(10, mock.property);
+		}
+
+		[Test]
+		public function getSetup_ShouldNotThrowError():void
+		{
+			var mock:MockObject = new MockObject();
+			Mock.setup().that(mock.property).throws(new IOError());
+		}
+
+		[Test(expects="flash.errors.IOError")]
+		public function getSetup_ShouldThrowError():void
+		{
+			var mock:MockObject = new MockObject();
+			Mock.setup().that(mock.property).throws(new IOError());
+			mock.property;
+		}
+
+		[Test]
+		public function setVerify_ShouldNotThrow():void
+		{
+			var mock:MockObject = new MockObject();
+			mock.property = 10;
+			Mock.verify().that(mock.property = 10);
+		}
+
+		[Test(expects="com.epolyakov.mock.MockVerifyError")]
+		public function setVerify_WrongNumberOfInvocations_ShouldThrow():void
+		{
+			var mock:MockObject = new MockObject();
+			mock.property = 10;
+			Mock.verify().that(mock.property = 10, 2);
+		}
+
+		[Test]
+		public function setSetup_ShouldCallFunction():void
+		{
+			var mock:MockObject = new MockObject();
+			var value:int = 0;
+			Mock.setup().that(mock.property = 10).returns(function (v:int):void
+			{
+				value = v;
+			});
+			mock.property = 10;
+			assertEquals(10, value);
+		}
+
+		[Test]
+		public function setSetup_ShouldNotThrowError():void
+		{
+			var mock:MockObject = new MockObject();
+			Mock.setup().that(mock.property = 10).throws(new IOError());
+			mock.property = 1;
+		}
+
+		[Test(expects="flash.errors.IOError")]
+		public function setSetup_ShouldThrowError():void
+		{
+			var mock:MockObject = new MockObject();
+			Mock.setup().that(mock.property = 10).throws(new IOError());
+			mock.property = 10;
+		}
+
+		[Test]
+		public function getSetupVerify_TwoProperties_ShouldNotThrow():void
+		{
+			var mock:MockObject = new MockObject();
+			Mock.setup().that(mock.property).returns(10);
+			Mock.setup().that(mock.property1).returns(20);
+			mock.property;
+			mock.property1;
+			mock.property1;
+			Mock.verify().that(mock.property);
+			Mock.verify().that(mock.property1, 2);
+			assertEquals(mock.property, 10);
+			assertEquals(mock.property1, 20);
+		}
+
+		[Test]
+		public function getSetupVerify_TwoInstances_ShouldNotThrow():void
+		{
+			var mock:MockObject = new MockObject();
+			var mock1:MockObject = new MockObject();
+			Mock.setup().that(mock.property).returns(10);
+			Mock.setup().that(mock1.property).returns(20);
+			mock.property;
+			mock1.property;
+			mock1.property;
+			Mock.verify().that(mock.property);
+			Mock.verify().that(mock1.property, 2);
+			assertEquals(mock.property, 10);
+			assertEquals(mock1.property, 20);
+		}
+
+		[Test]
+		public function getSetupVerify_TwoClasses_ShouldNotThrow():void
+		{
+			var mock:MockObject = new MockObject();
+			var mock1:MockObject1 = new MockObject1();
+			Mock.setup().that(mock.property).returns(10);
+			Mock.setup().that(mock1.property).returns(20);
+			mock.property;
+			mock1.property;
+			mock1.property;
+			Mock.verify().that(mock.property);
+			Mock.verify().that(mock1.property, 2);
+			assertEquals(mock.property, 10);
+			assertEquals(mock1.property, 20);
+		}
+
+		[Test]
+		public function setSetupVerify_TwoProperties_ShouldNotThrow():void
+		{
+			var mock:MockObject = new MockObject();
+			var value:int = 0;
+			var value1:int = 0;
+			Mock.setup().that(mock.property = 10).returns(function (v:int):void {value = v;});
+			Mock.setup().that(mock.property1 = 20).returns(function (v:int):void {value1 = v;});
+			mock.property = 10;
+			mock.property1 = 20;
+			mock.property1 = 20;
+			Mock.verify().that(mock.property = 10);
+			Mock.verify().that(mock.property1 = 20, 2);
+			assertEquals(value, 10);
+			assertEquals(value1, 20);
+		}
+
+		[Test]
+		public function setSetupVerify_TwoInstances_ShouldNotThrow():void
+		{
+			var mock:MockObject = new MockObject();
+			var mock1:MockObject = new MockObject();
+			var value:int = 0;
+			var value1:int = 0;
+			Mock.setup().that(mock.property = 10).returns(function (v:int):void {value = v;});
+			Mock.setup().that(mock1.property = 20).returns(function (v:int):void {value1 = v;});
+			mock.property = 10;
+			mock1.property = 20;
+			mock1.property = 20;
+			Mock.verify().that(mock.property = 10);
+			Mock.verify().that(mock1.property = 20, 2);
+			assertEquals(value, 10);
+			assertEquals(value1, 20);
+		}
+
+		[Test]
+		public function setSetupVerify_TwoClasses_ShouldNotThrow():void
+		{
+			var mock:MockObject = new MockObject();
+			var mock1:MockObject1 = new MockObject1();
+			var value:int = 0;
+			var value1:int = 0;
+			Mock.setup().that(mock.property = 10).returns(function (v:int):void {value = v;});
+			Mock.setup().that(mock1.property = 20).returns(function (v:int):void {value1 = v;});
+			mock.property = 10;
+			mock1.property = 20;
+			mock1.property = 20;
+			Mock.verify().that(mock.property = 10);
+			Mock.verify().that(mock1.property = 20, 2);
+			assertEquals(value, 10);
+			assertEquals(value1, 20);
+		}
+
+		[Test(expects="com.epolyakov.mock.MockSetupError")]
+		public function get_NotInGetter_ShouldThrow():void
+		{
+			Mock.get(new MockObject());
+		}
+
+		[Test(expects="com.epolyakov.mock.MockSetupError")]
+		public function set_NotInSetter_ShouldThrow():void
+		{
+			Mock.set(new MockObject(), 10);
+		}
+
 		private function testInvocation(invocation:Invocation, object:Object, method:Function, ...args):void
 		{
 			assertEquals(object, invocation.object);

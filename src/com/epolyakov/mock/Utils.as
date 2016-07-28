@@ -25,6 +25,10 @@ package com.epolyakov.mock
 
 		public static function functionToMethodName(value:Function, scope:Object):String
 		{
+			if (value != null && value.hasOwnProperty("mockMethodName"))
+			{
+				return value["mockMethodName"];
+			}
 			if (scope != null)
 			{
 				var xml:XML = describeType(scope);
@@ -48,6 +52,46 @@ package com.epolyakov.mock
 				return qName;
 			}
 			return "";
+		}
+
+		private static const _stackTraceToGetterName:RegExp = /at\s+com.epolyakov.mock::Mock\$\/get\(\)\s*\[?[^\]]*]?\s*at\s+([^\/]+)\/(get\s+\w+)/;
+		private static const _stackTraceToSetterName:RegExp = /at\s+com.epolyakov.mock::Mock\$\/set\(\)\s*\[?[^\]]*]?\s*at\s+([^\/]+)\/(set\s+\w+)/;
+
+		private static function getCurrentGetterSetterName(isGetter:Boolean):QName
+		{
+			try
+			{
+				throw new Error();
+			}
+			catch (e:Error)
+			{
+				var stackTrace:String = e.getStackTrace();
+				if (!stackTrace)
+				{
+					throw new MockSetupError("Mocks for " + (isGetter ? "getters" : "setters") + " are only supported in flash player 11.5 and higher.");
+				}
+				var regexp:RegExp = isGetter ? _stackTraceToGetterName : _stackTraceToSetterName;
+				var match:Object = regexp.exec(stackTrace);
+				if (match && match[0])
+				{
+					return new QName(match[1], match[2]);
+				}
+				else
+				{
+					throw new MockSetupError("Mock." + (isGetter ? "get" : "set") + " should be called in a " + (isGetter ? "getter" : "setter") + ".");
+				}
+			}
+			return null;
+		}
+
+		public static function getCurrentGetterName():QName
+		{
+			return getCurrentGetterSetterName(true);
+		}
+
+		public static function getCurrentSetterName():QName
+		{
+			return getCurrentGetterSetterName(false);
 		}
 
 		public static function toString(value:*):String

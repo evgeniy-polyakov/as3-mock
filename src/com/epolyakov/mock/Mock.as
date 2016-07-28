@@ -1,5 +1,7 @@
 package com.epolyakov.mock
 {
+	import flash.utils.Dictionary;
+
 	/**
 	 * @author Evgeniy Polyakov
 	 */
@@ -7,6 +9,8 @@ package com.epolyakov.mock
 	{
 		private static var _expectations:Vector.<Expectation> = new <Expectation>[];
 		private static var _invocations:Vector.<Invocation> = new <Invocation>[];
+		private static var _getters:Dictionary = new Dictionary();
+		private static var _setters:Dictionary = new Dictionary();
 
 		private static var _isInSetupMode:Boolean;
 		private static var _isInVerifyMode:Boolean;
@@ -38,6 +42,8 @@ package com.epolyakov.mock
 		{
 			_expectations = new <Expectation>[];
 			_invocations = new <Invocation>[];
+			_getters = new Dictionary();
+			_setters = new Dictionary();
 			_isInSetupMode = false;
 			_isInVerifyMode = false;
 			_currentInvocation = null;
@@ -79,6 +85,37 @@ package com.epolyakov.mock
 				}
 			}
 			return undefined;
+		}
+
+		public static function get(object:Object):*
+		{
+			var name:QName = Utils.getCurrentGetterName();
+			var getter:Function = _getters[name.toString()];
+			if (getter == null)
+			{
+				getter = function ():*
+				{
+					return null;
+				};
+				getter["mockMethodName"] = name.localName;
+				_getters[name.toString()] = getter;
+			}
+			return invoke(object, getter);
+		}
+
+		public static function set(object:Object, value:*):void
+		{
+			var name:QName = Utils.getCurrentSetterName();
+			var setter:Function = _setters[name.toString()];
+			if (setter == null)
+			{
+				setter = function (v:*):void
+				{
+				};
+				setter["mockMethodName"] = name.localName;
+				_setters[name.toString()] = setter;
+			}
+			invoke(object, setter, value);
 		}
 
 		public static function verify():IVerify
