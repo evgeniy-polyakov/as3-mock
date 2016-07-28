@@ -1203,15 +1203,13 @@ package com.epolyakov.mock
 			assertEquals(value1, 20);
 		}
 
-//		[Test(expects="com.epolyakov.mock.MockSetupError")]
-		[Test]
+		[Test(expects="com.epolyakov.mock.MockSetupError")]
 		public function get_NotInGetter_ShouldThrow():void
 		{
 			Mock.get(new MockObject());
 		}
 
-//		[Test(expects="com.epolyakov.mock.MockSetupError")]
-		[Test]
+		[Test(expects="com.epolyakov.mock.MockSetupError")]
 		public function set_NotInSetter_ShouldThrow():void
 		{
 			Mock.set(new MockObject(), 10);
