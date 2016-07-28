@@ -25,7 +25,7 @@ package com.epolyakov.mock
 
 		public static function functionToMethodName(value:Function, scope:Object):String
 		{
-			if (value["mockMethodName"])
+			if (value != null && value.hasOwnProperty("mockMethodName"))
 			{
 				return value["mockMethodName"];
 			}
@@ -54,8 +54,8 @@ package com.epolyakov.mock
 			return "";
 		}
 
-		private static const _stackTraceToGetterName:RegExp = /at\s+com.epolyakov.mock::Mock\$\/get\(\)\s*at\s+([^\/]+)\/(get\s+\w+)/;
-		private static const _stackTraceToSetterName:RegExp = /at\s+com.epolyakov.mock::Mock\$\/set\(\)\s*at\s+([^\/]+)\/(set\s+\w+)/;
+		private static const _stackTraceToGetterName:RegExp = /at\s+com.epolyakov.mock::Mock\$\/get\(\)\s*\[?[^\]]*]?\s*at\s+([^\/]+)\/(get\s+\w+)/;
+		private static const _stackTraceToSetterName:RegExp = /at\s+com.epolyakov.mock::Mock\$\/set\(\)\s*\[?[^\]]*]?\s*at\s+([^\/]+)\/(set\s+\w+)/;
 
 		private static function getCurrentGetterSetterName(isGetter:Boolean):QName
 		{
