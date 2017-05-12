@@ -98,7 +98,7 @@ When setup or verify the mocked method there is an option to use argument matche
 - `It.match(func:Function)` - the argument is matched by `function(value:*):Boolean`
 - `It.match(regexp:RegExp)` - the argument is converted to string and tested by the given `RegExp`
 
-> Note that you can not combine `null`, `undefined`, `0`, `NaN`, `false` with matchers in one list of function arguments. Otherwise the library can not detect which argument has a matcher and wich one has a value and `MockSetupError` will be thrown. Incorrect: ~~`myMock.someMethod(false, It.isAny())`~~. Correct:`myMock.someMethod(It.isEqual(false), It.isAny())`.
+> Note that you can not combine `null`, `undefined`, `0`, `NaN`, `false` with matchers in one list of function arguments. Otherwise the library can not detect which argument has a matcher and which one has a value and `MockSetupError` will be thrown. Incorrect: ~~`myMock.someMethod(false, It.isAny())`~~. Correct:`myMock.someMethod(It.isEqual(false), It.isAny())`.
 
 ### Setup callbacks
 Setup of mocked method supports callbacks to compute the returned value based on the method arguments. Just specify the function in `returns` and make sure it takes the same parameters as the mocked method.
